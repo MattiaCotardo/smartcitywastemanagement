@@ -7,7 +7,7 @@ public class CitizenDTO {
     String cognome;
     String email;
     String comune;
-    int da_sensibilizzare; /* 1 True, 0 False*/
+    int da_sensibilizzare; /* 1 True, 0 False.*/
     int performance; /* in percentuale */
     String password;
 
