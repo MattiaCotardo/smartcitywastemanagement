@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Registration</title>
+</head>
+<body>
+<h1>Registrazione</h1>
+
+<form id="registrationForm" onsubmit="submitForm(event)">
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="surname">Cognome:</label>
+    <input type="text" id="surname" name="surname" required><br>
+
+    <label for="city">Comune:</label>
+    <input type="text" id="city" name="city" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br>
+
+    <input type="submit" value="Registrati">
+</form>
+
+<script>
+    function submitForm(event) {
+        event.preventDefault();
+
+        // Ottieni i valori inseriti dall'utente
+        const name = document.getElementById('name').value;
+        const surname = document.getElementById('surname').value;
+        const city = document.getElementById('city').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Crea un oggetto JSON con i dati inseriti
+        const payload = {
+            nome: name,
+            cognome: surname,
+            comune: city,
+            email: email,
+            password: password,
+            da_sensibilizzare:0,
+            performance:100
+        };
+
+        // Effettua la richiesta POST
+        fetch('http://localhost:8080/api/users/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Registrazione avvenuta con successo!');
+                } else {
+                    alert('Errore durante la registrazione. Riprova.');
+                }
+            })
+            .catch(error => {
+                alert('Errore durante la registrazione. Riprova.');
+            });
+    }
+</script>
+</body>
+</html>

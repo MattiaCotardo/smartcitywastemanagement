@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+
+  CitizenAccountManagement:
+    image: openjdk:17-jdk-alpine
+    container_name: CitizenAccountManagement
+    ports:
+      - 8080:8080
+      - 8000:8000
+    expose:
+      - "8000"
+    depends_on:
+      - mongoCitizensDB
+    networks:
+      - my-net
+    volumes:
+      - ./CitizenAccountManagement/build/libs/CitizenAccountManagement-0.0.1-SNAPSHOT.jar:/app/app.jar
+    working_dir: /app
+    entrypoint: java -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000 -jar /app/app.jar
+
+  mongoCitizensDB:
+    image: mongo:5.0
+    container_name: mongoCitizensDB
+    ports:
+      - 27017:27017
+    networks:
+      - my-net
+
+
+  AdminAccountManagement:
+    image: openjdk:17-jdk-alpine
+    container_name: AdminAccountManagement
+    ports:
+      - 8081:8080
+      - 8001:8000
+    expose:
+      - "8000"
+    depends_on:
+      - mongoAdminsDB
+    networks:
+      - my-net
+    volumes:
+      - ./AdminAccountManagement/build/libs/AdminAccountManagement-0.0.1-SNAPSHOT.jar:/app/app.jar
+    working_dir: /app
+    entrypoint: java -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000 -jar /app/app.jar
+
+  mongoAdminsDB:
+    image: mongo:5.0
+    container_name: mongoAdminsDB
+    ports:
+      - 27018:27017
+    networks:
+      - my-net
+
+
+
+networks:
+  my-net:
+    driver:
+      "bridge"
+
