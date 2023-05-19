@@ -45,7 +45,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
-                .authorizeRequests().requestMatchers("/api/admins/authenticate", "/api/admins/").permitAll().
+                .authorizeRequests().requestMatchers("/api/admins/authenticate", "/api/admins/", "/api/admins/find/*").permitAll().
                 anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

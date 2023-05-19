@@ -59,6 +59,8 @@ public class UserRestController {
     }
 
 
+
+
     @PreAuthorize("hasRole('CITIZEN')")
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public CitizenDTO getById(@PathVariable String id)  throws UserNotFoundException {
@@ -111,7 +113,7 @@ public class UserRestController {
 
 
     @RequestMapping(value="/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public CitizenDTO post(@RequestBody CitizenDTO citizenDTO) {
+    public CitizenDTO addCitizen(@RequestBody CitizenDTO citizenDTO) {
 
         Citizen newCitizen = new Citizen();
         newCitizen.setNome(citizenDTO.getNome());
@@ -124,7 +126,6 @@ public class UserRestController {
 
         newCitizen = userRepository.save(newCitizen);
 
-        //System.out.println("L'ID DEL NUOVO UTENTE E': "+newUser.getId());
 
         citizenDTO.setId(newCitizen.getId());
         citizenDTO.setPassword(null);

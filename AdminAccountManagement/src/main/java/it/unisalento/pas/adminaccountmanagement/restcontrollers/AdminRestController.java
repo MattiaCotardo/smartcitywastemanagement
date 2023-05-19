@@ -17,6 +17,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static it.unisalento.pas.adminaccountmanagement.configuration.SecurityConfig.passwordEncoder;
 
 @RestController
@@ -52,21 +56,23 @@ public class AdminRestController {
         return adminDTO;
     }
 
-    @PreAuthorize("hasRole('ADMIN_COMUNALE')")
-    @RequestMapping(value="/prova_comunale")
-    public String prova_comunale() {
 
-        return "Sei un admin comunale";
+    @RequestMapping(value="/find/{email}")
+    public AdminDTO getAdminByEmail(@PathVariable String email) {
+
+
+        Admin admin = adminRepository.findByEmail(email);
+
+        AdminDTO adminDTO = new AdminDTO();
+
+        adminDTO.setNome(admin.getNome());
+        adminDTO.setCognome(admin.getCognome());
+        adminDTO.setEmail(admin.getEmail());
+        adminDTO.setComune(admin.getComune());
+        adminDTO.setPassword(admin.getPassword());
+
+        return adminDTO;
     }
-
-    @PreAuthorize("hasRole('ADMIN_AZIENDALE')")
-    @RequestMapping(value="/prova_aziendale")
-    public String prova_aziendale() {
-
-        return "Sei un admin aziendale";
-    }
-
-
 
     @RequestMapping(value="/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginDTO loginDTO) {
