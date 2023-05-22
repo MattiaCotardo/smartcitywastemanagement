@@ -78,20 +78,4 @@ public class DumpsterRestController {
         return dumpsterDTO;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

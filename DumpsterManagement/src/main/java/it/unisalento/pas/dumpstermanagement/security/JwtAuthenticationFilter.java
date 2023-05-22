@@ -2,7 +2,6 @@ package it.unisalento.pas.dumpstermanagement.security;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import it.unisalento.pas.dumpstermanagement.service.CustomDumpsterDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,10 +21,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtUtilities jwtUtilities ;
-
-    @Autowired
-    private CustomDumpsterDetailsService customerUserDetailsService ;
+    private JwtUtilities jwtUtilities;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -46,34 +42,33 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             System.out.println("Entrato");
 
-            UserDetails userDetails = this.customerUserDetailsService.loadUserByUsername(username);
 
-            if (userDetails == null){
+            RestTemplate restTemplate = new RestTemplate();
 
-                RestTemplate restTemplate = new RestTemplate();
+            // Effettua la richiesta GET al microservizio AdminAccountManahement
 
-                // Effettua la richiesta GET al microservizio AdminAccountManahement
+            String url = "http://AdminAccountManagement:8080/api/admins/find/" + username;
 
-                String url = "http://AdminAccountManagement:8080/api/admins/find/" + username;
+            ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 
-                ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
-
-                // Ottieni la risposta
-                String responseBody = result.getBody();
+            // Ottieni la risposta
+            String responseBody = result.getBody();
 
 
-                JsonObject jsonObject = new Gson().fromJson(responseBody, JsonObject.class);
+            JsonObject jsonObject = new Gson().fromJson(responseBody, JsonObject.class);
 
-                String comune = jsonObject.get("comune").getAsString();
+            String comune = jsonObject.get("comune").getAsString();
 
 
-                if(comune.isEmpty()){
-                    userDetails = org.springframework.security.core.userdetails.User.withUsername(username).password(jsonObject.get("password").getAsString()).roles("ADMIN_AZIENDALE").build();
-                }else{
-                    userDetails = org.springframework.security.core.userdetails.User.withUsername(username).password(jsonObject.get("password").getAsString()).roles("ADMIN_COMUNALE").build();
-                }
+            UserDetails userDetails;
 
+            if(comune.isEmpty()){
+                userDetails = org.springframework.security.core.userdetails.User.withUsername(username).password(jsonObject.get("password").getAsString()).roles("ADMIN_AZIENDALE").build();
+            }else{
+                userDetails = org.springframework.security.core.userdetails.User.withUsername(username).password(jsonObject.get("password").getAsString()).roles("ADMIN_COMUNALE").build();
             }
+
+
 
             if (jwtUtilities.validateToken(jwt, userDetails)) {
 
