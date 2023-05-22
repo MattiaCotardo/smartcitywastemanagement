@@ -53,6 +53,31 @@ services:
     networks:
       - my-net
 
+  DumpsterManagement:
+    image: openjdk:17-jdk-alpine
+    container_name: DumpsterManagement
+    ports:
+      - 8082:8080
+      - 8002:8000
+    expose:
+      - "8000"
+    depends_on:
+      - mongoDumpstersDB
+    networks:
+      - my-net
+    volumes:
+      - ./DumpsterManagement/build/libs/DumpsterManagement-0.0.1-SNAPSHOT.jar:/app/app.jar
+    working_dir: /app
+    entrypoint: java -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000 -jar /app/app.jar
+
+  mongoDumpstersDB:
+    image: mongo:5.0
+    container_name: mongoDumpstersDB
+    ports:
+      - 27019:27017
+    networks:
+      - my-net
+
 
 
 networks:

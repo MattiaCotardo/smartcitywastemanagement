@@ -1,7 +1,7 @@
 package it.unisalento.pas.dumpstermanagement.configuration;
 
 import it.unisalento.pas.dumpstermanagement.security.JwtAuthenticationFilter;
-import it.unisalento.pas.dumpstermanagement.service.CustomUserDetailsService;
+import it.unisalento.pas.dumpstermanagement.service.CustomDumpsterDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private CustomDumpsterDetailsService userDetailsService;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {

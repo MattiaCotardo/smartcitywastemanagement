@@ -2,7 +2,7 @@ package it.unisalento.pas.dumpstermanagement.security;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import it.unisalento.pas.dumpstermanagement.service.CustomUserDetailsService;
+import it.unisalento.pas.dumpstermanagement.service.CustomDumpsterDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtUtilities jwtUtilities ;
 
     @Autowired
-    private CustomUserDetailsService customerUserDetailsService ;
+    private CustomDumpsterDetailsService customerUserDetailsService ;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

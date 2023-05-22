@@ -1,7 +1,7 @@
 package it.unisalento.pas.dumpstermanagement.service;
 
-import it.unisalento.pas.dumpstermanagement.domain.Citizen;
-import it.unisalento.pas.dumpstermanagement.repositories.UserRepository;
+import it.unisalento.pas.dumpstermanagement.domain.Dumpster;
+import it.unisalento.pas.dumpstermanagement.repositories.DumpsterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,10 +9,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomDumpsterDetailsService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    DumpsterRepository dumpsterRepository;
 
     /* L'email rappresenta lo username in questo contesto */
     @Override
@@ -20,12 +20,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         UserDetails userDetails = null;
 
-        final Citizen citizen = userRepository.findByEmail(email);
+        final Dumpster dumpster = dumpsterRepository.findByEmail(email);
 
-        if(citizen == null) {
+        if(dumpster == null) {
             //throw new UsernameNotFoundException(email);
         }else{
-            userDetails = org.springframework.security.core.userdetails.User.withUsername(citizen.getEmail()).password(citizen.getPassword()).roles("CITIZEN").build();
+            userDetails = org.springframework.security.core.userdetails.User.withUsername(dumpster.getEmail()).password(dumpster.getPassword()).roles("CITIZEN").build();
         }
 
         return userDetails;
