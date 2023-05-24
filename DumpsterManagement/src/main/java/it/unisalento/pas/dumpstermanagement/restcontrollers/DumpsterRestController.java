@@ -1,6 +1,8 @@
 package it.unisalento.pas.dumpstermanagement.restcontrollers;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.unisalento.pas.dumpstermanagement.domain.Dumpster;
 import it.unisalento.pas.dumpstermanagement.dto.DumpsterDTO;
@@ -30,12 +32,6 @@ public class DumpsterRestController {
 
     @Autowired
     DumpsterRepository dumpsterRepository;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtUtilities jwtUtilities;
 
 
    @PreAuthorize("hasRole('ADMIN_AZIENDALE')")
@@ -97,6 +93,33 @@ public class DumpsterRestController {
         dumpsterRepository.save(dumpster);
 
         return statusString;
+    }
+
+
+    @PreAuthorize("hasRole('ADMIN_AZIENDALE')")
+    @RequestMapping(value="/clean", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String cleanDumpsters(@RequestBody String dumpstersIDs) {
+
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(dumpstersIDs, JsonObject.class);
+        JsonArray jsonArray = jsonObject.getAsJsonArray("IDs");
+
+        Optional<Dumpster> optionalDumpster;
+        Dumpster dumpster;
+
+        for (JsonElement element : jsonArray) {
+            String id = element.getAsString();
+
+            //Pulizia cassonetto per ogni id
+            optionalDumpster = dumpsterRepository.findById(id);
+
+            dumpster = optionalDumpster.get();
+
+            dumpster.setStato(0);
+            dumpsterRepository.save(dumpster);
+        }
+
+        return "";
     }
 
 }

@@ -39,7 +39,7 @@ public class AdminRestController {
 
 
     @RequestMapping(value="/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public AdminDTO post(@RequestBody AdminDTO adminDTO) {
+    public AdminDTO addAdmin(@RequestBody AdminDTO adminDTO) {
 
         Admin newAdmin = new Admin();
         newAdmin.setNome(adminDTO.getNome());

@@ -53,7 +53,7 @@ public class UserRestController {
             citizenDTO.setCognome(citizen.getCognome());
             citizenDTO.setEmail(citizen.getEmail());
             citizenDTO.setComune(citizen.getComune());
-            citizenDTO.setDa_sensibilizzare(citizen.getDa_sensibilizzare());
+            citizenDTO.setDaSensibilizzare(citizen.getDaSensibilizzare());
             citizenDTO.setPerformance((citizen.getPerformance()));
             utenti.add(citizenDTO);
         }
@@ -74,7 +74,7 @@ public class UserRestController {
         citizenDTO.setEmail(citizen.getEmail());
         citizenDTO.setComune(citizen.getComune());
         citizenDTO.setPassword(citizen.getPassword());
-        citizenDTO.setDa_sensibilizzare(citizen.getDa_sensibilizzare());
+        citizenDTO.setDaSensibilizzare(citizen.getDaSensibilizzare());
         citizenDTO.setPerformance(citizen.getPerformance());
 
         return citizenDTO;
@@ -98,7 +98,7 @@ public class UserRestController {
             user1.setEmail(citizen.getEmail());
             user1.setComune(citizen.getComune());
             user1.setPerformance(citizen.getPerformance());
-            user1.setDa_sensibilizzare(citizen.getDa_sensibilizzare());
+            user1.setDaSensibilizzare(citizen.getDaSensibilizzare());
             user1.setId(citizen.getId());
 
             return user1;
@@ -108,10 +108,8 @@ public class UserRestController {
         }
     }
 
-
-   // @PreAuthorize("hasRole('USER')")
-   @RequestMapping(value="/find", method = RequestMethod.GET)
-   public List<CitizenDTO> findBy(@RequestParam String comune) {
+    @RequestMapping(value="/find", method = RequestMethod.GET)
+    public List<CitizenDTO> findBy(@RequestParam String comune) {
 
 
         List<CitizenDTO> utenti = new ArrayList<>();
@@ -123,13 +121,37 @@ public class UserRestController {
             citizenDTO.setCognome(citizen.getCognome());
             citizenDTO.setEmail(citizen.getEmail());
             citizenDTO.setComune(citizen.getComune());
-            citizenDTO.setDa_sensibilizzare(citizen.getDa_sensibilizzare());
+            citizenDTO.setDaSensibilizzare(citizen.getDaSensibilizzare());
             citizenDTO.setPerformance((citizen.getPerformance()));
             utenti.add(citizenDTO);
         }
 
         return utenti;
     }
+
+    @PreAuthorize("hasRole('ADMIN_COMUNALE')")
+    @RequestMapping(value="/find/sens/{sens}", method = RequestMethod.GET)
+    public List<CitizenDTO> findDaSensibilizzare(@PathVariable int sens) {
+
+
+        List<CitizenDTO> utenti = new ArrayList<>();
+
+        for(Citizen citizen : userRepository.findByDaSensibilizzare(sens)) {
+            CitizenDTO citizenDTO = new CitizenDTO();
+            citizenDTO.setId(citizen.getId());
+            citizenDTO.setNome(citizen.getNome());
+            citizenDTO.setCognome(citizen.getCognome());
+            citizenDTO.setEmail(citizen.getEmail());
+            citizenDTO.setComune(citizen.getComune());
+            citizenDTO.setDaSensibilizzare(citizen.getDaSensibilizzare());
+            citizenDTO.setPerformance((citizen.getPerformance()));
+            utenti.add(citizenDTO);
+        }
+
+        return utenti;
+    }
+
+
 
     @RequestMapping(value="/performance/{email}", method = RequestMethod.POST)
     public String updatePerformanceByEmail(@PathVariable String email, @RequestBody String performanceJson) {
@@ -141,6 +163,13 @@ public class UserRestController {
         float performance = Float.parseFloat(performanceString);
 
         citizen.setPerformance(performance);
+
+        if(performance < 50){
+            citizen.setDaSensibilizzare(1);
+        }else{
+            citizen.setDaSensibilizzare(0);
+        }
+
         userRepository.save(citizen);
 
         return performanceString;
@@ -156,7 +185,7 @@ public class UserRestController {
         newCitizen.setCognome(citizenDTO.getCognome());
         newCitizen.setEmail(citizenDTO.getEmail());
         newCitizen.setComune(citizenDTO.getComune());
-        newCitizen.setDa_sensibilizzare(citizenDTO.getDa_sensibilizzare());
+        newCitizen.setDaSensibilizzare(citizenDTO.getDaSensibilizzare());
         newCitizen.setPerformance(citizenDTO.getPerformance());
         newCitizen.setPassword(passwordEncoder().encode(citizenDTO.getPassword()));
 

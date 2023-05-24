@@ -9,6 +9,8 @@ public interface UserRepository extends MongoRepository<Citizen, String> {
 
     public List<Citizen> findByCognome(String cognome);
 
+    public List<Citizen> findByDaSensibilizzare(int daSensibilizzare);
+
     public List<Citizen> findByComune(String comune);
 
     public Citizen findByEmail(String email);

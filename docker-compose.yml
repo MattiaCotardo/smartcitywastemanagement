@@ -107,6 +107,33 @@ services:
       - my-net
 
 
+##########################################################################################################################
+  PaymentManagement:
+    image: openjdk:17-jdk-alpine
+    container_name: PaymentManagement
+    ports:
+      - 8084:8080
+      - 8004:8000
+    expose:
+      - "8000"
+    depends_on:
+      - mongoPaymentsDB
+    networks:
+      - my-net
+    volumes:
+      - ./PaymentManagement/build/libs/PaymentManagement-0.0.1-SNAPSHOT.jar:/app/app.jar
+    working_dir: /app
+    entrypoint: java -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000 -jar /app/app.jar
+
+  mongoPaymentsDB:
+    image: mongo:5.0
+    container_name: mongoPaymentsDB
+    ports:
+      - 27021:27017
+    networks:
+      - my-net
+
+
 
 networks:
   my-net:
