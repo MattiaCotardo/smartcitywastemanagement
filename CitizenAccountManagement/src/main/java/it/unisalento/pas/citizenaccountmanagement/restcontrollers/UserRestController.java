@@ -1,5 +1,7 @@
 package it.unisalento.pas.citizenaccountmanagement.restcontrollers;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import it.unisalento.pas.citizenaccountmanagement.domain.Citizen;
 import it.unisalento.pas.citizenaccountmanagement.dto.AuthenticationResponseDTO;
 import it.unisalento.pas.citizenaccountmanagement.dto.LoginDTO;
@@ -27,6 +29,7 @@ import static it.unisalento.pas.citizenaccountmanagement.configuration.SecurityC
 @RestController
 @RequestMapping("/api/citizens")
 public class UserRestController {
+
 
     @Autowired
     UserRepository userRepository;
@@ -58,6 +61,24 @@ public class UserRestController {
         return utenti;
     }
 
+
+    @RequestMapping(value="/find/{email}")
+    public CitizenDTO getAdminByEmail(@PathVariable String email) {
+
+        Citizen citizen = userRepository.findByEmail(email);
+
+        CitizenDTO citizenDTO = new CitizenDTO();
+
+        citizenDTO.setNome(citizen.getNome());
+        citizenDTO.setCognome(citizen.getCognome());
+        citizenDTO.setEmail(citizen.getEmail());
+        citizenDTO.setComune(citizen.getComune());
+        citizenDTO.setPassword(citizen.getPassword());
+        citizenDTO.setDa_sensibilizzare(citizen.getDa_sensibilizzare());
+        citizenDTO.setPerformance(citizen.getPerformance());
+
+        return citizenDTO;
+    }
 
 
 
@@ -110,6 +131,21 @@ public class UserRestController {
         return utenti;
     }
 
+    @RequestMapping(value="/performance/{email}", method = RequestMethod.POST)
+    public String updatePerformanceByEmail(@PathVariable String email, @RequestBody String performanceJson) {
+
+        Citizen citizen = userRepository.findByEmail(email);
+
+        JsonObject jsonObject = new Gson().fromJson(performanceJson, JsonObject.class);
+        String performanceString = jsonObject.get("performance").getAsString();
+        float performance = Float.parseFloat(performanceString);
+
+        citizen.setPerformance(performance);
+        userRepository.save(citizen);
+
+        return performanceString;
+    }
+
 
 
     @RequestMapping(value="/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -157,21 +193,5 @@ public class UserRestController {
         return ResponseEntity.ok(new AuthenticationResponseDTO(jwt));
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

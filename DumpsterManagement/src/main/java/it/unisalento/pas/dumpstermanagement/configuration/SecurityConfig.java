@@ -42,8 +42,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
-                .authorizeRequests().requestMatchers("/api/citizens/authenticate", "/api/citizens/",
-                         "/api/citizens/find").permitAll().
+                .authorizeRequests().requestMatchers("/api/dumpsters/status/*").permitAll().
                 anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

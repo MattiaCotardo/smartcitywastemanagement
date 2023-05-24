@@ -8,7 +8,7 @@ public class CitizenDTO {
     String email;
     String comune;
     int da_sensibilizzare; /* 1 True, 0 False.*/
-    int performance; /* in percentuale */
+    float performance; /* in percentuale */
     String password;
 
     public String getPassword() {
@@ -67,11 +67,11 @@ public class CitizenDTO {
         this.da_sensibilizzare = da_sensibilizzare;
     }
 
-    public int getPerformance() {
+    public float getPerformance() {
         return performance;
     }
 
-    public void setPerformance(int performance) {
+    public void setPerformance(float performance) {
         this.performance = performance;
     }
 }

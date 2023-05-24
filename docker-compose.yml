@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
 
+##########################################################################################################################
   CitizenAccountManagement:
     image: openjdk:17-jdk-alpine
     container_name: CitizenAccountManagement
@@ -27,7 +28,7 @@ services:
     networks:
       - my-net
 
-
+##########################################################################################################################
   AdminAccountManagement:
     image: openjdk:17-jdk-alpine
     container_name: AdminAccountManagement
@@ -53,6 +54,7 @@ services:
     networks:
       - my-net
 
+##########################################################################################################################
   DumpsterManagement:
     image: openjdk:17-jdk-alpine
     container_name: DumpsterManagement
@@ -75,6 +77,32 @@ services:
     container_name: mongoDumpstersDB
     ports:
       - 27019:27017
+    networks:
+      - my-net
+
+##########################################################################################################################
+  WasteManagement:
+    image: openjdk:17-jdk-alpine
+    container_name: WasteManagement
+    ports:
+      - 8083:8080
+      - 8003:8000
+    expose:
+      - "8000"
+    depends_on:
+      - mongoWastesDB
+    networks:
+      - my-net
+    volumes:
+      - ./WasteManagement/build/libs/WasteManagement-0.0.1-SNAPSHOT.jar:/app/app.jar
+    working_dir: /app
+    entrypoint: java -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000 -jar /app/app.jar
+
+  mongoWastesDB:
+    image: mongo:5.0
+    container_name: mongoWastesDB
+    ports:
+      - 27020:27017
     networks:
       - my-net
 

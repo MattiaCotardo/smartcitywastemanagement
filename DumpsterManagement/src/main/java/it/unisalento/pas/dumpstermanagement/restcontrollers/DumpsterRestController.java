@@ -1,5 +1,7 @@
 package it.unisalento.pas.dumpstermanagement.restcontrollers;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import it.unisalento.pas.dumpstermanagement.domain.Dumpster;
 import it.unisalento.pas.dumpstermanagement.dto.DumpsterDTO;
 import it.unisalento.pas.dumpstermanagement.exceptions.UserNotFoundException;
@@ -72,10 +74,29 @@ public class DumpsterRestController {
 
         newDumpster = dumpsterRepository.save(newDumpster);
 
-
         dumpsterDTO.setId(newDumpster.getId());
 
         return dumpsterDTO;
+    }
+
+    @RequestMapping(value="/status/{idCassonetto}", method = RequestMethod.POST)
+    public String updateStatusById(@PathVariable String idCassonetto, @RequestBody String statusJson) {
+
+        Optional<Dumpster> optionalDumpster = dumpsterRepository.findById(idCassonetto);
+
+        Dumpster dumpster = optionalDumpster.get();
+        DumpsterDTO dumpsterDTO = new DumpsterDTO();
+        dumpsterDTO.setId(dumpster.getId());
+
+
+        JsonObject jsonObject = new Gson().fromJson(statusJson, JsonObject.class);
+        String statusString = jsonObject.get("stato").getAsString();
+        int status = Integer.parseInt(statusString);
+
+        dumpster.setStato(status + dumpster.getStato());
+        dumpsterRepository.save(dumpster);
+
+        return statusString;
     }
 
 }
