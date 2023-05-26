@@ -129,6 +129,30 @@ public class UserRestController {
         return utenti;
     }
 
+    @RequestMapping(value="/findByEmail", method = RequestMethod.GET)
+    public CitizenDTO findByEmail(@RequestParam String email) {
+
+        CitizenDTO citizenDTO = new CitizenDTO();
+        Citizen citizen = new Citizen();
+        citizen = userRepository.findByEmail(email);
+
+        if(citizen == null) {
+            return null;
+        }
+
+        citizenDTO.setId(citizen.getId());
+        citizenDTO.setNome(citizen.getNome());
+        citizenDTO.setCognome(citizen.getCognome());
+        citizenDTO.setEmail(citizen.getEmail());
+        citizenDTO.setComune(citizen.getComune());
+        citizenDTO.setDaSensibilizzare(citizen.getDaSensibilizzare());
+        citizenDTO.setPerformance((citizen.getPerformance()));
+        citizenDTO.setPassword((citizen.getPassword()));
+
+
+        return citizenDTO;
+    }
+
     @PreAuthorize("hasRole('ADMIN_COMUNALE')")
     @RequestMapping(value="/find/sens/{sens}", method = RequestMethod.GET)
     public List<CitizenDTO> findDaSensibilizzare(@PathVariable int sens) {
@@ -153,7 +177,7 @@ public class UserRestController {
 
 
 
-    @RequestMapping(value="/performance/{email}", method = RequestMethod.POST)
+    @RequestMapping(value="/performance/update/{email}", method = RequestMethod.POST)
     public String updatePerformanceByEmail(@PathVariable String email, @RequestBody String performanceJson) {
 
         Citizen citizen = userRepository.findByEmail(email);
@@ -223,4 +247,23 @@ public class UserRestController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN_COMUNALE')")
+    @RequestMapping(value="/performance/{comune}", method = RequestMethod.GET)
+    public List<CitizenDTO> findPerformanceByComune(@PathVariable String comune) {
+
+
+        List<CitizenDTO> utenti = new ArrayList<>();
+
+        for(Citizen citizen : userRepository.findByComune(comune)) {
+            CitizenDTO citizenDTO = new CitizenDTO();
+            citizenDTO.setNome(citizen.getNome());
+            citizenDTO.setCognome(citizen.getCognome());
+            citizenDTO.setEmail(citizen.getEmail());
+            citizenDTO.setDaSensibilizzare(citizen.getDaSensibilizzare());
+            citizenDTO.setPerformance((citizen.getPerformance()));
+            utenti.add(citizenDTO);
+        }
+
+        return utenti;
+    }
 }

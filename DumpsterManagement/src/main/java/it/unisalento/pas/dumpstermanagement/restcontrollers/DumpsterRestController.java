@@ -75,7 +75,7 @@ public class DumpsterRestController {
         return dumpsterDTO;
     }
 
-    @RequestMapping(value="/status/{idCassonetto}", method = RequestMethod.POST)
+    @RequestMapping(value="/status/update/{idCassonetto}", method = RequestMethod.POST)
     public String updateStatusById(@PathVariable String idCassonetto, @RequestBody String statusJson) {
 
         Optional<Dumpster> optionalDumpster = dumpsterRepository.findById(idCassonetto);

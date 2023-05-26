@@ -40,37 +40,49 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            System.out.println("Entrato");
-
-
             RestTemplate restTemplate = new RestTemplate();
-
-            // Effettua la richiesta GET al microservizio AdminAccountManahement
-
-            String url = "http://AdminAccountManagement:8080/api/admins/find/" + username;
-
-            ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
-
-            // Ottieni la risposta
-            String responseBody = result.getBody();
-
-
-            JsonObject jsonObject = new Gson().fromJson(responseBody, JsonObject.class);
-
-            String comune = jsonObject.get("comune").getAsString();
-
-
+            String url;
+            ResponseEntity<String> result;
+            String responseBody;
+            JsonObject jsonObject;
             UserDetails userDetails;
 
-            if(comune.isEmpty()){
-                userDetails = org.springframework.security.core.userdetails.User.withUsername(username).password(jsonObject.get("password").getAsString()).roles("ADMIN_AZIENDALE").build();
-            }else{
-                userDetails = org.springframework.security.core.userdetails.User.withUsername(username).password(jsonObject.get("password").getAsString()).roles("ADMIN_COMUNALE").build();
+
+            System.out.println("entrati nel controllo token");
+            // Effettua la richiesta GET al microservizio CitizenAccountManagement
+            url = "http://CitizenAccountManagement:8080/api/citizens/findByEmail?email=" + username;
+            result = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+
+            if(result.getBody() != null) {
+                System.out.println("ha fatto bene la .exchange");
+                // Ottieni la risposta
+                responseBody = result.getBody();
+                System.out.println("ha fatto bene la result.getBody");
+                jsonObject = new Gson().fromJson(responseBody, JsonObject.class);
+                System.out.println("la risposta vuota è: " + responseBody);
+                userDetails = org.springframework.security.core.userdetails.User.withUsername(username).password(jsonObject.get("password").getAsString()).roles("CITIZEN").build();
+            }
+
+            else {
+                // Effettua la richiesta GET al microservizio AdminAccountManagement
+                url = "http://AdminAccountManagement:8080/api/admins/find/" + username;
+                result = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+                // Ottieni la risposta
+                responseBody = result.getBody();
+                jsonObject = new Gson().fromJson(responseBody, JsonObject.class);
+                String comune = jsonObject.get("comune").getAsString();
+
+                if (comune.isEmpty()) {
+                    userDetails = org.springframework.security.core.userdetails.User.withUsername(username).password(jsonObject.get("password").getAsString()).roles("ADMIN_AZIENDALE").build();
+                } else {
+                    userDetails = org.springframework.security.core.userdetails.User.withUsername(username).password(jsonObject.get("password").getAsString()).roles("ADMIN_COMUNALE").build();
+                }
             }
 
 
 
             if (jwtUtilities.validateToken(jwt, userDetails)) {
+                System.out.println("si rompe qua 3");
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

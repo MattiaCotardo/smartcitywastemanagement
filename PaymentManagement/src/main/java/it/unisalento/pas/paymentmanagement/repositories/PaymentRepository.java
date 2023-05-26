@@ -11,4 +11,7 @@ public interface PaymentRepository extends MongoRepository<Payment, String> {
 
     public List<Payment> findAll();
 
+    public List<Payment> findPaymentByEmailCittadino();
+
+
 }

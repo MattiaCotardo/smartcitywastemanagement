@@ -27,9 +27,9 @@ public class PaymentRestController {
     PaymentRepository paymentRepository;
 
 
-   @PreAuthorize("hasRole('ADMIN_COMUNALE')")
-   @RequestMapping(value="/find", method = RequestMethod.GET)
-   public List<PaymentDTO> findPaymentByComune(@RequestParam String comune) {
+    @PreAuthorize("hasRole('ADMIN_COMUNALE')")
+    @RequestMapping(value = "/find", method = RequestMethod.GET)
+    public List<PaymentDTO> findPaymentByComune(@RequestParam String comune) {
 
 
         List<PaymentDTO> payments = new ArrayList<>();
@@ -40,14 +40,14 @@ public class PaymentRestController {
         JsonObject jsonObject;
         String comuneCittadino;
 
-        for(Payment payment : paymentRepository.findAll()) {
+        for (Payment payment : paymentRepository.findAll()) {
 
 
             restTemplate = new RestTemplate();
 
             // Effettua la richiesta GET al microservizio CitizenAccountManagement
 
-            url = "http://CitizenAccountManagement:8080/api/citizens/find/" + payment.getEmailCittadino();
+            url = "http://CitizenAccountManagement:8080/api/citizens/findByEmail?email=" + payment.getEmailCittadino();
 
             result = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 
@@ -59,8 +59,7 @@ public class PaymentRestController {
 
             comuneCittadino = jsonObject.get("comune").getAsString();
 
-            if(comune.equals(comuneCittadino))
-            {
+            if (comune.equals(comuneCittadino)) {
                 PaymentDTO paymentDTO = new PaymentDTO();
                 paymentDTO.setId(payment.getId());
                 paymentDTO.setEmailCittadino(payment.getEmailCittadino());
@@ -79,7 +78,7 @@ public class PaymentRestController {
 
 
     @PreAuthorize("hasRole('ADMIN_COMUNALE')")
-    @RequestMapping(value="/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public PaymentDTO addPayment(@RequestBody PaymentDTO paymentDTO) {
 
         Payment newPayment = new Payment();
@@ -99,6 +98,46 @@ public class PaymentRestController {
     }
 
 
+    @PreAuthorize("hasRole('CITIZEN')")
+    @RequestMapping(value = "/findByEmail", method = RequestMethod.GET)
+    public List<PaymentDTO> findPaymentByEmail(@RequestParam String email) {
+
+        List<PaymentDTO> payments = new ArrayList<>();
+
+        for (Payment payment : paymentRepository.findByEmailCittadino(email)) {
+            PaymentDTO paymentDTO = new PaymentDTO();
+            paymentDTO.setId(payment.getId());
+            paymentDTO.setImporto(payment.getImporto());
+            paymentDTO.setDaPagare(payment.getDaPagare());
+            paymentDTO.setGiornoScadenza(payment.getGiornoScadenza());
+            paymentDTO.setMeseScadenza(payment.getMeseScadenza());
+            paymentDTO.setAnnoScadenza(payment.getAnnoScadenza());
+            paymentDTO.setEmailCittadino(payment.getEmailCittadino());
+
+            payments.add(paymentDTO);
+        }
+
+        return payments;
+
+    }
 
 
+    @PreAuthorize("hasRole('CITIZEN')")
+    @RequestMapping(value = "/pay", method = RequestMethod.POST)
+    public String pay(@RequestBody String idJson) {
+
+        JsonObject jsonObject = new Gson().fromJson(idJson, JsonObject.class);
+        String idString = jsonObject.get("id").getAsString();
+        Optional<Payment> optPay = paymentRepository.findById(idString);
+
+        if (optPay.isPresent()) {
+            Payment payment = optPay.get();
+
+            payment.setDaPagare(0);
+
+            paymentRepository.save(payment);
+        }
+        return "Pagamento completato";
+    }
 }
+
