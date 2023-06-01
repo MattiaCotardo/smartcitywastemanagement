@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+
 @Configuration
 public class AppConfig {
     private DumpsterContext dumpsterContext;
@@ -42,5 +43,6 @@ public class AppConfig {
 
         // Imposta l'array di oggetti Dumpster all'interno di DumpsterContext
         dumpsterContext.setDumpsters(dumpsters);
+
     }
 }

@@ -6,29 +6,20 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.unisalento.pas.dumpstermanagement.domain.Dumpster;
 import it.unisalento.pas.dumpstermanagement.dto.DumpsterDTO;
-import it.unisalento.pas.dumpstermanagement.exceptions.UserNotFoundException;
 import it.unisalento.pas.dumpstermanagement.repositories.DumpsterRepository;
-import it.unisalento.pas.dumpstermanagement.security.JwtUtilities;
 import it.unisalento.pas.dumpstermanagement.service.ProducerService;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.Exchange;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import static it.unisalento.pas.dumpstermanagement.configuration.SecurityConfig.passwordEncoder;
 
@@ -106,6 +97,20 @@ public class DumpsterRestController {
 
         dumpsterDTO.setId(newDumpster.getId());
 
+        //deve essere aggiunto anche un dumpster nello smartdumpsterr
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://SmartDumpsters:8080/api/smartdumpsters/";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Gson gson = new Gson();
+
+        String requestBody = gson.toJson(dumpsterDTO);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
         return dumpsterDTO;
     }
 
@@ -134,6 +139,7 @@ public class DumpsterRestController {
     @RequestMapping(value="/clean", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public String cleanDumpsters(@RequestBody String dumpstersIDs) {
 
+
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(dumpstersIDs, JsonObject.class);
         JsonArray jsonArray = jsonObject.getAsJsonArray("IDs");
@@ -142,6 +148,7 @@ public class DumpsterRestController {
         Dumpster dumpster;
 
         for (JsonElement element : jsonArray) {
+
             String id = element.getAsString();
 
             //Pulizia cassonetto per ogni id
@@ -150,8 +157,11 @@ public class DumpsterRestController {
             dumpster = optionalDumpster.get();
 
             dumpster.setStato(0);
+
             dumpsterRepository.save(dumpster);
+
         }
+
 
         //deve essere aggiornato anche lo stato dello smartdumpster
         RestTemplate restTemplate = new RestTemplate();

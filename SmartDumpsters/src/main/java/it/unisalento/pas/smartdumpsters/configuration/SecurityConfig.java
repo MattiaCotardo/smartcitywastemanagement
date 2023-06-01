@@ -28,7 +28,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
-                .authorizeRequests().requestMatchers("/api/smartdumpsters/clean", "/api/smartdumpsters/status/update/*").permitAll().
+                .authorizeRequests().requestMatchers("/api/smartdumpsters/clean", "/api/smartdumpsters/status/update/*", "/api/smartdumpsters/").permitAll().
                 anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
