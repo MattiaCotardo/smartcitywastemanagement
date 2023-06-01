@@ -63,8 +63,10 @@ services:
       - 8002:8000
     expose:
       - "8000"
+      - "8080"
     depends_on:
       - mongoDumpstersDB
+      - rabbitmq
     networks:
       - my-net
     volumes:
@@ -130,6 +132,42 @@ services:
     container_name: mongoPaymentsDB
     ports:
       - 27021:27017
+    networks:
+      - my-net
+
+##########################################################################################################################
+
+  SmartDumpsters:
+    image: openjdk:17-jdk-alpine
+    container_name: SmartDumpsters
+    ports:
+      - 8085:8080
+      - 8005:8000
+    expose:
+      - "8000"
+    networks:
+      - my-net
+    depends_on:
+      - DumpsterManagement
+      - CitizenAccountManagement
+      - AdminAccountManagement
+      - WasteManagement
+      - PaymentManagement
+      - rabbitmq
+    volumes:
+      - ./SmartDumpsters/build/libs/SmartDumpsters-0.0.1-SNAPSHOT.jar:/app/app.jar
+    working_dir: /app
+    entrypoint: java -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000 -jar /app/app.jar
+
+
+##########################################################################################################################
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.9.7
+    ports:
+      - 5672:5672
+      - 15672:15672
     networks:
       - my-net
 

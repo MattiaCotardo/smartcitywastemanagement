@@ -41,7 +41,7 @@ public class WasteRestController {
 
         newWaste = wasteRepository.save(newWaste);
 
-        System.out.println("salveto nuovo waste " + newWaste.getEmailCitizen());
+
         wasteDTO.setId(newWaste.getId());
 
         //calcolo della performance per email
@@ -62,7 +62,7 @@ public class WasteRestController {
         RestTemplate restTemplate = new RestTemplate();
         // Effettua la richiesta PATCH al microservizio dei Citizens
         String url = "http://CitizenAccountManagement:8080/api/citizens/performance/update/" + wasteDTO.getEmailCitizen();
-        System.out.println("chiamata rest fatta a /performance/update/" + wasteDTO.getEmailCitizen());
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String requestBody = "{\"performance\": "+performance+"}";
@@ -72,7 +72,16 @@ public class WasteRestController {
 
         //il nuovo peso deve essere mandato in patch a cassonetto
         url = "http://DumpsterManagement:8080/api/dumpsters/status/update/" + wasteDTO.getIdCassonetto();
-        System.out.println("chiamata rest fatta a /status/update/" + wasteDTO.getIdCassonetto());
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        requestBody = "{\"stato\": "+wasteDTO.getPeso()+"}";
+        requestEntity = new HttpEntity<>(requestBody, headers);
+        response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+
+        //il nuovo peso deve essere mandato in patch anche allo smartdumpster
+        url = "http://SmartDumpsters:8080/api/smartdumpsters/status/update/" + wasteDTO.getIdCassonetto();
 
         headers.setContentType(MediaType.APPLICATION_JSON);
 

@@ -9,8 +9,14 @@ import it.unisalento.pas.dumpstermanagement.dto.DumpsterDTO;
 import it.unisalento.pas.dumpstermanagement.exceptions.UserNotFoundException;
 import it.unisalento.pas.dumpstermanagement.repositories.DumpsterRepository;
 import it.unisalento.pas.dumpstermanagement.security.JwtUtilities;
+import it.unisalento.pas.dumpstermanagement.service.ProducerService;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.Exchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +39,13 @@ public class DumpsterRestController {
     @Autowired
     DumpsterRepository dumpsterRepository;
 
+    @Autowired
+    ConnectionFactory connectionFactory;
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+    @Autowired
+    ProducerService producerService;
+
 
    @PreAuthorize("hasRole('ADMIN_AZIENDALE')")
    @RequestMapping(value="/find", method = RequestMethod.GET)
@@ -42,6 +55,27 @@ public class DumpsterRestController {
         List<DumpsterDTO> dumpsters = new ArrayList<>();
 
         for(Dumpster dumpster : dumpsterRepository.findByComune(comune)) {
+            DumpsterDTO dumpsterDTO = new DumpsterDTO();
+            dumpsterDTO.setId(dumpster.getId());
+            dumpsterDTO.setTipologia(dumpster.getTipologia());
+            dumpsterDTO.setStato(dumpster.getStato());
+            dumpsterDTO.setX(dumpster.getX());
+            dumpsterDTO.setY(dumpster.getY());
+            dumpsterDTO.setComune(dumpster.getComune());
+            dumpsters.add(dumpsterDTO);
+        }
+
+        return dumpsters;
+    }
+
+
+    @RequestMapping(value="/findAll", method = RequestMethod.GET)
+    public List<DumpsterDTO> getAll() {
+
+
+        List<DumpsterDTO> dumpsters = new ArrayList<>();
+
+        for(Dumpster dumpster : dumpsterRepository.findAll()) {
             DumpsterDTO dumpsterDTO = new DumpsterDTO();
             dumpsterDTO.setId(dumpster.getId());
             dumpsterDTO.setTipologia(dumpster.getTipologia());
@@ -118,6 +152,16 @@ public class DumpsterRestController {
             dumpster.setStato(0);
             dumpsterRepository.save(dumpster);
         }
+
+        //deve essere aggiornato anche lo stato dello smartdumpster
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://SmartDumpsters:8080/api/smartdumpsters/clean";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String requestBody = dumpstersIDs;
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
         return "";
     }
