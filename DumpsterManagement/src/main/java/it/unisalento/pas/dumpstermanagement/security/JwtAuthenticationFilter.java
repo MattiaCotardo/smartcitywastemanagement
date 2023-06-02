@@ -40,8 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            System.out.println("Entrato");
-
 
             RestTemplate restTemplate = new RestTemplate();
 

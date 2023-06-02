@@ -66,6 +66,7 @@ services:
       - "8080"
     depends_on:
       - mongoDumpstersDB
+      - SmartDumpsters
       - rabbitmq
     networks:
       - my-net
@@ -148,11 +149,6 @@ services:
     networks:
       - my-net
     depends_on:
-      - DumpsterManagement
-      - CitizenAccountManagement
-      - AdminAccountManagement
-      - WasteManagement
-      - PaymentManagement
       - rabbitmq
     volumes:
       - ./SmartDumpsters/build/libs/SmartDumpsters-0.0.1-SNAPSHOT.jar:/app/app.jar
