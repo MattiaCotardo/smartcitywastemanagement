@@ -4,6 +4,7 @@ import {CitizensService} from "../../services/citizens.service";
 import {Router} from "@angular/router";
 import {Admin} from "../../models/admin";
 import {AdminsService} from "../../services/admins.service";
+import {HomeComponent} from "../home/home.component";
 
 @Component({
   selector: 'app-loginadmin',
@@ -16,11 +17,12 @@ export class LoginadminComponent {
 
   admin:Admin = {} as Admin
 
-  constructor(private adminsService:AdminsService, private route:Router) {
+  constructor(private adminsService:AdminsService, private homeComponent:HomeComponent) {
   }
 
   onSubmit(citizenForm: any) {
     this.adminsService.loginAdmin(this.admin.email, this.admin.password);
   }
+
 
 }

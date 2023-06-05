@@ -11,6 +11,11 @@ import { LoginComponent } from './components/login/login.component';
 import { LoginadminComponent } from './components/loginadmin/loginadmin.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { HomeCitizenComponent } from './components/home-citizen/home-citizen.component';
+import { PaymentComponent } from './components/payment/payment.component';
+import { DisposalComponent } from './components/disposal/disposal.component';
+import { InfoCitizenComponent } from './components/info-citizen/info-citizen.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import {DumpstersService} from "./services/dumpsters.service";
 
 @NgModule({
   declarations: [
@@ -19,7 +24,11 @@ import { HomeCitizenComponent } from './components/home-citizen/home-citizen.com
     LoginComponent,
     LoginadminComponent,
     SignupComponent,
-    HomeCitizenComponent
+    HomeCitizenComponent,
+    PaymentComponent,
+    DisposalComponent,
+    InfoCitizenComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +36,7 @@ import { HomeCitizenComponent } from './components/home-citizen/home-citizen.com
     HttpClientModule,
     AppRoutingModule,
   ],
-  providers: [CitizensService],
+  providers: [CitizensService, DumpstersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

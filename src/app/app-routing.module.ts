@@ -6,6 +6,10 @@ import {LoginComponent} from "./components/login/login.component";
 import {LoginadminComponent} from "./components/loginadmin/loginadmin.component";
 import {SignupComponent} from "./components/signup/signup.component";
 import {HomeCitizenComponent} from "./components/home-citizen/home-citizen.component";
+import {PaymentComponent} from "./components/payment/payment.component";
+import {DisposalComponent} from "./components/disposal/disposal.component";
+import {InfoCitizenComponent} from "./components/info-citizen/info-citizen.component";
+import {WelcomeComponent} from "./components/welcome/welcome.component";
 
 
 const routes: Routes = [
@@ -15,12 +19,18 @@ const routes: Routes = [
     children: [
       {path: 'login' , component : LoginComponent},
       {path:'loginadmin', component: LoginadminComponent},
-      {path:'signup', component: SignupComponent}
+      {path:'signup', component: SignupComponent},
+      {path:'', component: WelcomeComponent}
     ]
   },
   {
     path:'citizen',
-    component: HomeCitizenComponent
+    component: HomeCitizenComponent,
+    children: [
+      {path: 'payments' , component : PaymentComponent},
+      {path:'disposals', component: DisposalComponent},
+      {path: '' , component : InfoCitizenComponent}
+    ]
   }
 
 ]

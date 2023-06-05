@@ -1,0 +1,32 @@
+<br>
+<br>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container" >
+  <h1>Citizen Info</h1>
+  <form>
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <input type="text" class="form-control" id="nome" value="{{citizenOrNull?.nome}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="cognome">Cognome</label>
+      <input type="text" class="form-control" id="cognome" value="{{citizenOrNull?.cognome}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" value="{{citizenOrNull?.email}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="comune">Comune</label>
+      <input type="text" class="form-control" id="comune" value="{{citizenOrNull?.comune}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="performance">Performance</label>
+      <input type="text" class="form-control" id="performance" value="{{citizenOrNull?.performance}}" readonly>
+    </div>
+  </form>
+</div>
+</body>

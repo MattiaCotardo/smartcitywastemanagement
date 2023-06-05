@@ -1,0 +1,38 @@
+<!-- template.component.html -->
+<div class="container mt-5">
+  <h2>Elenco Pagamenti</h2>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email Cittadino</th>
+      <th>Importo</th>
+      <th>Stato</th>
+      <th>Data Scadenza</th>
+
+      <th>Pagamento</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let payment of paymentsArray">
+      <td>{{ payment.id }}</td>
+      <td>{{ payment.emailCittadino }}</td>
+      <td>{{ payment.importo }}</td>
+      <td>
+        <ng-container *ngIf="payment.daPagare === 0; else daPagareBlock">
+          pagato
+        </ng-container>
+        <ng-template #daPagareBlock>
+          da pagare
+        </ng-template>
+      </td>
+      <td>{{ payment.giornoScadenza }}/{{ payment.meseScadenza }}/{{ payment.annoScadenza }}</td>
+      <div class="text-center">
+        <button  [disabled] = "payment.daPagare == 0" class="btn btn-outline-primary" (click)="pay(payment.id)">Paga</button>
+      </div>
+    </tr>
+    </tbody>
+  </table>
+</div>

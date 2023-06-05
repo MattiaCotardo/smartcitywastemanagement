@@ -1,7 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
 import {Citizen} from "../../models/citizen";
 import {CitizensService} from "../../services/citizens.service";
-import {Router} from "@angular/router";
+import {HomeComponent} from "../home/home.component";
+
 
 @Component({
   selector: 'app-login',
@@ -14,12 +15,17 @@ export class LoginComponent {
 
   citizen:Citizen = {} as Citizen
 
-  constructor(private citizensService:CitizensService, private route:Router) {
+  statusCode: number = 0
+
+  constructor(private citizensService:CitizensService, private homeComponent:HomeComponent) {
   }
 
-  onSubmit(citizenForm: any) {
+  async onSubmit(citizenForm: any) {
     //let res = this.citizensService.loginCitizen(this.citizen.email, this.citizen.password);
-    console.log(this.citizensService.loginCitizen(this.citizen.email, this.citizen.password))
+    this.statusCode = await this.citizensService.loginCitizen(this.citizen.email, this.citizen.password)
+    console.log(this.statusCode)
   }
+
+
 
 }

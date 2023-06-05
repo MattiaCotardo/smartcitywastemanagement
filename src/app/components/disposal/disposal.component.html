@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<br>
+<br>
+<br>
+<head>
+  <title>Form con Bootstrap</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h2>Form di inserimento dati per nuovo conferimento</h2>
+  <form id="myForm" #addWasteForm="ngForm" (ngSubmit)="onSubmit(addWasteForm)">
+    <div class="form-group">
+      <label for="dumpsterSelect">Seleziona un cassonetto in cui buttare i tuoi rifiuti:</label>
+      <select class="form-control" id="dumpsterSelect" required [(ngModel)] = "dumpster.id" name="id">
+        <option *ngFor="let dumpster of dumpsters" [value]="dumpster.id" > dumpster con id: {{dumpster.id}} di tipo {{dumpster.tipologia}} con posizione x: {{dumpster.x}} e y: {{dumpster.y}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="weightInput">Inserisci il peso:</label>
+      <input type="number" class="form-control" id="weightInput" placeholder="Inserisci il peso" required [(ngModel)] = "disposal.peso" name="peso">
+    </div>
+    <button type="submit" class="btn btn-primary"
+            [disabled] = "!addWasteForm.valid">Invia</button>
+  </form>
+</div>
+</body>
+</html>
+
+
