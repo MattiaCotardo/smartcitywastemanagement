@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static it.unisalento.pas.adminaccountmanagement.configuration.SecurityConfig.passwordEncoder;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/admins")
 public class AdminRestController {

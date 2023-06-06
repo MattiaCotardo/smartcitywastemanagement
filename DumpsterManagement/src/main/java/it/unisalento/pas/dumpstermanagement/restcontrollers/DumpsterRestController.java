@@ -23,6 +23,7 @@ import com.google.gson.JsonParser;
 
 import static it.unisalento.pas.dumpstermanagement.configuration.SecurityConfig.passwordEncoder;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/dumpsters")
 public class DumpsterRestController {

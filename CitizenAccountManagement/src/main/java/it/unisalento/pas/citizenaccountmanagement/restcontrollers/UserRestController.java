@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import static it.unisalento.pas.citizenaccountmanagement.configuration.SecurityConfig.passwordEncoder;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/citizens")
 public class UserRestController {

@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/wastes")
 public class WasteRestController {
@@ -71,6 +72,9 @@ public class WasteRestController {
 
 
         //il nuovo peso deve essere mandato in patch a cassonetto
+        System.out.println("update dello stato del cassonetto " + wasteDTO.getIdCassonetto());
+        System.out.println("con un peso di " + wasteDTO.getPeso());
+
         url = "http://DumpsterManagement:8080/api/dumpsters/status/update/" + wasteDTO.getIdCassonetto();
 
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -78,6 +82,7 @@ public class WasteRestController {
         requestBody = "{\"stato\": "+wasteDTO.getPeso()+"}";
         requestEntity = new HttpEntity<>(requestBody, headers);
         response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+        System.out.print("prova2");
 
 
         //il nuovo peso deve essere mandato in patch anche allo smartdumpster

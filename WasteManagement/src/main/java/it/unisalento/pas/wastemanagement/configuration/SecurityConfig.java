@@ -41,7 +41,7 @@ public class SecurityConfig {
 
         http.csrf().disable()
                 .authorizeRequests().requestMatchers("").permitAll().
-                anyRequest().authenticated().and().sessionManagement()
+                anyRequest().authenticated().and().cors().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
