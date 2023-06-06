@@ -9,7 +9,6 @@
       <th>Importo</th>
       <th>Stato</th>
       <th>Data Scadenza</th>
-
       <th>Pagamento</th>
 
 
@@ -19,7 +18,7 @@
     <tr *ngFor="let payment of paymentsArray">
       <td>{{ payment.id }}</td>
       <td>{{ payment.emailCittadino }}</td>
-      <td>{{ payment.importo }}</td>
+      <td>{{ payment.importo }} €</td>
       <td>
         <ng-container *ngIf="payment.daPagare === 0; else daPagareBlock">
           pagato

@@ -5,5 +5,5 @@ export interface Dumpster {
   stato: number
   x: number
   y: number
-  comune: string
+  comune: string|null
 }

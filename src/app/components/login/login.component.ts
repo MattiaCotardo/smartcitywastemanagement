@@ -21,9 +21,7 @@ export class LoginComponent {
   }
 
   async onSubmit(citizenForm: any) {
-    //let res = this.citizensService.loginCitizen(this.citizen.email, this.citizen.password);
     this.statusCode = await this.citizensService.loginCitizen(this.citizen.email, this.citizen.password)
-    console.log(this.statusCode)
   }
 
 

@@ -15,22 +15,20 @@ export class DisposalComponent {
   @ViewChild('addWasteForm') form:any;
   disposal:Disposal = {} as Disposal
 
-  dumpsters: Dumpster[]|null = {} as Dumpster[]
+  dumpsters: Dumpster[]|null = []
 
   dumpster: Dumpster = {} as Dumpster;
-  pesoInserito: any;
-  types: string[] = ["plastica", "carta", "plastica", "umido", "vetro", "metallo", "indifferenziato"];
 
   async ngOnInit() {
     this.dumpsters = await this.dumpstersService.getAllDumpsters()
   }
 
-  onSubmit(addWasteForm: any) {
+  async onSubmit(addWasteForm: any) {
 
-    this.disposal.id = addWasteForm.form.value.id;
+    this.disposal.idCassonetto = addWasteForm.form.value.id;
     if(this.dumpsters!=null) {
       for (let i = 0; i < this.dumpsters.length; i++) {
-        if (this.dumpsters[i].id === this.disposal.id) {
+        if (this.dumpsters[i].id === this.disposal.idCassonetto) {
           this.disposal.tipologia = this.dumpsters[i].tipologia
           break; // Interrompi il ciclo quando viene trovato l'oggetto desiderato
         }
@@ -43,10 +41,7 @@ export class DisposalComponent {
     this.disposal.anno = currentDate.getFullYear();
     this.disposal.emailCittadino = localStorage.getItem("emailCitizen")
 
-    console.log(this.disposal.giorno+"/"+this.disposal.mese+"/"+this.disposal.anno);
-    console.log(this.disposal.id)
-    console.log(this.disposal.peso)
-    console.log(this.disposal.emailCittadino)
-    console.log(this.disposal.tipologia)
+    var code = await this.dumpstersService.addDisposal(this.disposal)
+    console.log(code);
   }
 }

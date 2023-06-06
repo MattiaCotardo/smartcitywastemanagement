@@ -17,11 +17,16 @@ export class LoginadminComponent {
 
   admin:Admin = {} as Admin
 
+  statusCode: number = 0
+
+
   constructor(private adminsService:AdminsService, private homeComponent:HomeComponent) {
   }
 
-  onSubmit(citizenForm: any) {
-    this.adminsService.loginAdmin(this.admin.email, this.admin.password);
+  async onSubmit(citizenForm: any) {
+    //let res = this.citizensService.loginCitizen(this.citizen.email, this.citizen.password);
+    this.statusCode = await this.adminsService.loginAdmin(this.admin.email, this.admin.password)
+    console.log(this.statusCode)
   }
 
 

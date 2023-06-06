@@ -1,0 +1,36 @@
+<!-- template.component.html -->
+<div class="container mt-5">
+  <br>
+  <h2>Performance Totali del comune di {{comune}}: {{performanceAggregate}} %</h2>
+  <br>
+  <h3>Elenco Performance Cittadini</h3>
+  <br>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Cognome</th>
+      <th>Email</th>
+      <th>Performance</th>
+      <th>Da sensibilizzare</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let citizen of citizenArray">
+      <td>{{ citizen.nome }}</td>
+      <td>{{ citizen.cognome }}</td>
+      <td>{{ citizen.email }}</td>
+      <td>{{ citizen.performance }} %</td>
+      <td>
+        <ng-container *ngIf="citizen.daSensibilizzare === 0; else daSensibilizzareBlock">
+          No
+        </ng-container>
+        <ng-template #daSensibilizzareBlock>
+          Si
+        </ng-template>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+</div>

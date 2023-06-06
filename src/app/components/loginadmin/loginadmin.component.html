@@ -23,7 +23,7 @@
                 required
                 pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
                 #inputEmail = "ngModel"
-                [ngClass]="{'is-invalid': inputEmail.errors && inputEmail.touched}"
+                [ngClass]="{'is-invalid': (inputEmail.errors && inputEmail.touched) || statusCode===1}"
                 type="email" class="form-control" id="email" placeholder="Enter email">
               <div class="invalid-feedback">
                 Please insert a valid e-mail.
@@ -34,6 +34,9 @@
               <input
                 [(ngModel)] = "admin.password" name="password"
                 required
+                minlength="3"
+                #inputPassword = "ngModel"
+                [ngClass]="{'is-invalid': (inputEmail.errors && inputEmail.touched) || statusCode===1}"
                 type="password" class="form-control" id="password" placeholder="Enter password">
               <div class="invalid-feedback">
                 Please insert a password.

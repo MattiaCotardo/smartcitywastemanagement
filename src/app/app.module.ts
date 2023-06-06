@@ -16,6 +16,15 @@ import { DisposalComponent } from './components/disposal/disposal.component';
 import { InfoCitizenComponent } from './components/info-citizen/info-citizen.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import {DumpstersService} from "./services/dumpsters.service";
+import { HomeAdminAziendaleComponent } from './components/home-admin-aziendale/home-admin-aziendale.component';
+import { InfoAdminAziendaleComponent } from './components/info-admin-aziendale/info-admin-aziendale.component';
+import { HomeAdminComunaleComponent } from './components/home-admin-comunale/home-admin-comunale.component';
+import { InfoAdminComunaleComponent } from './components/info-admin-comunale/info-admin-comunale.component';
+import { EmitPaymentComponent } from './components/emit-payment/emit-payment.component';
+import { CreateDumpsterComponent } from './components/create-dumpster/create-dumpster.component';
+import { PerformanceCitizenComponent } from './components/performance-citizen/performance-citizen.component';
+import { ResearchCitizenComponent } from './components/research-citizen/research-citizen.component';
+import { PaymentsTableComponent } from './components/payments-table/payments-table.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +37,16 @@ import {DumpstersService} from "./services/dumpsters.service";
     PaymentComponent,
     DisposalComponent,
     InfoCitizenComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    HomeAdminAziendaleComponent,
+    InfoAdminAziendaleComponent,
+    HomeAdminComunaleComponent,
+    InfoAdminComunaleComponent,
+    EmitPaymentComponent,
+    CreateDumpsterComponent,
+    PerformanceCitizenComponent,
+    ResearchCitizenComponent,
+    PaymentsTableComponent
   ],
   imports: [
     BrowserModule,

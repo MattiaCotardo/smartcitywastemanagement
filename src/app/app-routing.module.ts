@@ -11,6 +11,16 @@ import {DisposalComponent} from "./components/disposal/disposal.component";
 import {InfoCitizenComponent} from "./components/info-citizen/info-citizen.component";
 import {WelcomeComponent} from "./components/welcome/welcome.component";
 
+import {HomeAdminAziendaleComponent} from "./components/home-admin-aziendale/home-admin-aziendale.component";
+import {InfoAdminAziendaleComponent} from "./components/info-admin-aziendale/info-admin-aziendale.component";
+import {HomeAdminComunaleComponent} from "./components/home-admin-comunale/home-admin-comunale.component";
+import {InfoAdminComunaleComponent} from "./components/info-admin-comunale/info-admin-comunale.component";
+import {EmitPaymentComponent} from "./components/emit-payment/emit-payment.component";
+import {CreateDumpsterComponent} from "./components/create-dumpster/create-dumpster.component";
+import {PerformanceCitizenComponent} from "./components/performance-citizen/performance-citizen.component";
+import {ResearchCitizenComponent} from "./components/research-citizen/research-citizen.component";
+import {PaymentsTableComponent} from "./components/payments-table/payments-table.component";
+
 
 const routes: Routes = [
   {
@@ -31,9 +41,27 @@ const routes: Routes = [
       {path:'disposals', component: DisposalComponent},
       {path: '' , component : InfoCitizenComponent}
     ]
+  },
+  {
+    path:'adminAziendale',
+    component: HomeAdminAziendaleComponent,
+    children: [
+        {path: '' , component : InfoAdminAziendaleComponent}
+    ]
+  },
+  {
+    path:'adminComunale',
+    component: HomeAdminComunaleComponent,
+    children: [
+      {path: '' , component : InfoAdminComunaleComponent},
+      {path: 'payment' , component : EmitPaymentComponent},
+      {path: 'payments' , component : ResearchCitizenComponent, children: [{path: '' , component : PaymentsTableComponent}]},
+      {path: 'dumpster' , component : CreateDumpsterComponent},
+      {path: 'citizens' , component : PerformanceCitizenComponent}
+    ]
   }
+  ]
 
-]
 @NgModule({
   declarations: [],
   imports: [

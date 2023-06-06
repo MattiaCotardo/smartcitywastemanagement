@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<br>
+<br>
+<br>
+<head>
+  <title>Form con Bootstrap</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h2>Form di inserimento dati per nuovo pagamento</h2>
+  <form id="myForm" #addPaymentForm="ngForm" (ngSubmit)="onSubmit(addPaymentForm)">
+    <div class="form-group">
+      <label for="citizenSelect">Seleziona un cittadino per cui emettere un pagamento:</label>
+      <select class="form-control" id="citizenSelect" required [(ngModel)] = "citizen.email" name="citizenSelect">
+        <option *ngFor="let citizen of citizens" [value]="citizen.email" > email: {{citizen.email}} : {{citizen.nome}} {{citizen.cognome}} </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="amount">Inserisci l'importo (€):</label>
+      <input type="number" min="1" class="form-control" id="amount" placeholder="Inserisci l'importo (€):" required [(ngModel)] = "payment.importo" name="amount">
+    </div>
+    <div class="form-group">
+      <label for="scadenza">Data di scadenza</label>
+      <input type="text" class="form-control" id="scadenza" value="{{payment.giornoScadenza}}/{{payment.meseScadenza}}/{{payment.annoScadenza}}" readonly>
+    </div>
+    <button type="submit" class="btn btn-primary"
+            [disabled] = "!addPaymentForm.valid">Invia</button>
+  </form>
+</div>
+</body>
+</html>
+
+
+

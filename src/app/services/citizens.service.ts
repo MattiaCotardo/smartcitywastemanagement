@@ -67,8 +67,20 @@ export class CitizensService {
         },
       });
       const payments: Payment[] = response.data;
-      console.log(payments)
       return payments;
+
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async getCitizensByComune(comune: string|null)  : Promise<Citizen[]|null> {
+    const apiUrl = 'http://localhost:8080/api/citizens/find?comune='+ comune
+
+    try {
+      const response = await axios.get(apiUrl);
+      const citizens: Citizen[] = response.data;
+      return citizens;
 
     } catch (error) {
       return null;
@@ -86,7 +98,7 @@ export class CitizensService {
       });
       // Verifica se la richiesta è andata bene
       if (response.status === 200) {
-
+        window.alert("Pagamento effettuato con successo");
         return 0; // Restituisce 0 se la richiesta è andata bene
       } else {
         return 1; // Restituisce 1 se la richiesta ha avuto esito negativo
@@ -111,10 +123,8 @@ export class CitizensService {
     this.http.post(url, data, httpOptions).subscribe(
       response => {
 
-        console.log('Richiesta POST effettuata con successo', response);
-
-
-        this.router.navigate([''])
+        window.alert("Nuovo account creato con successo");
+        this.router.navigate(['login'])
       },
       error => {
         console.error('Errore durante la richiesta POST', error);

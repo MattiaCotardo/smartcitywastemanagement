@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<br>
+<br>
+<br>
+<head>
+  <title>Form con Bootstrap</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h2>Form di inserimento dati per nuovo cassonetto</h2>
+  <form id="myForm" #addDumpsterForm="ngForm" (ngSubmit)="onSubmit(addDumpsterForm)">
+    <div class="form-group">
+      <label for="typeSelect">Seleziona una tipologia:</label>
+      <select class="form-control" id="typeSelect" required [(ngModel)] = "dumpster.tipologia" name="typeSelect">
+        <option *ngFor="let type of types" [value]="type" > {{type}} </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="x">Inserisci la latitudine:</label>
+      <input type="number" min="1" class="form-control" id="x" placeholder="Clicca per inserire" required [(ngModel)] = "dumpster.x" name="x">
+    </div>
+    <div class="form-group">
+      <label for="y">Inserisci la longitudine:</label>
+      <input type="number" min="1" class="form-control" id="y" placeholder="Clicca per inserire" required [(ngModel)] = "dumpster.y" name="y">
+    </div>
+    <div class="form-group">
+      <label for="comune">Comune</label>
+      <input type="text" class="form-control" id="comune" value="{{dumpster.comune}}" readonly>
+    </div>
+    <button type="submit" class="btn btn-primary"
+            [disabled] = "!addDumpsterForm.valid">Invia</button>
+  </form>
+</div>
+</body>
+</html>
+
+
+

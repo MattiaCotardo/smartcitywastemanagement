@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<br>
+<br>
+<br>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+  <body>
+    <div class="container d-flex justify-content-center align-items-center">
+      <form id="myForm" #selectCitizenForm="ngForm" (ngSubmit)="onSubmit(selectCitizenForm)" class="form-inline">
+        <div class="form-group">
+          <label for="citizenSelect" class="mr-2">Seleziona un cittadino da visualizzare:</label>
+          <select class="form-control" id="citizenSelect" required [(ngModel)]="citizen.email" name="citizenSelect">
+            <option *ngFor="let citizen of citizenArray" [value]="citizen.email"> email: {{citizen.email}} : {{citizen.nome}} {{citizen.cognome}} </option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary ml-2" [disabled]="!selectCitizenForm.valid">Cerca</button>
+      </form>
+    </div>
+  </body>
+</html>
+
+
+
+
+<router-outlet></router-outlet>
