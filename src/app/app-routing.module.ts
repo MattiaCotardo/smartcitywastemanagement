@@ -20,6 +20,8 @@ import {CreateDumpsterComponent} from "./components/create-dumpster/create-dumps
 import {PerformanceCitizenComponent} from "./components/performance-citizen/performance-citizen.component";
 import {ResearchCitizenComponent} from "./components/research-citizen/research-citizen.component";
 import {PaymentsTableComponent} from "./components/payments-table/payments-table.component";
+import {MapComponent} from "./components/map/map.component";
+import {StatusComponent} from "./components/status/status.component";
 
 
 const routes: Routes = [
@@ -46,7 +48,8 @@ const routes: Routes = [
     path:'adminAziendale',
     component: HomeAdminAziendaleComponent,
     children: [
-        {path: '' , component : InfoAdminAziendaleComponent}
+        {path: '' , component : InfoAdminAziendaleComponent},
+        {path: 'map' , component : MapComponent}
     ]
   },
   {

@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {Citizen} from "../models/citizen";
 import {Admin} from "../models/admin";
 import {Payment} from "../models/payment";
+import {Dumpster} from "../models/dumpster";
 
 @Injectable({
   providedIn: 'root'
@@ -117,4 +118,5 @@ export class AdminsService {
       return null;
     }
   }
+
 }

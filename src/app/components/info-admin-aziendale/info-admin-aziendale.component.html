@@ -1,1 +1,25 @@
-<p>info-admin-aziendale works!</p>
+<br>
+<br>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container" >
+  <h1>Admin Info</h1>
+  <form>
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <input type="text" class="form-control" id="nome" value="{{adminOrNull?.nome}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="cognome">Cognome</label>
+      <input type="text" class="form-control" id="cognome" value="{{adminOrNull?.cognome}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" value="{{adminOrNull?.email}}" readonly>
+    </div>
+
+  </form>
+</div>
+</body>

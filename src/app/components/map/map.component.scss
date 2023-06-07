@@ -1,0 +1,17 @@
+.image-container {
+  position: relative;
+}
+
+.marker {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.fixed-size {
+  width: 30%; /* Imposta la larghezza desiderata dell'immagine */
+  height: auto; /* L'altezza si adatterà in base alla larghezza specificata mantenendo le proporzioni originali dell'immagine */
+}

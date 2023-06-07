@@ -20,7 +20,7 @@ export class DisposalComponent {
   dumpster: Dumpster = {} as Dumpster;
 
   async ngOnInit() {
-    this.dumpsters = await this.dumpstersService.getAllDumpsters()
+    this.dumpsters = await this.dumpstersService.getDumpstersByComune(localStorage.getItem('currentCitizenCity'))
   }
 
   async onSubmit(addWasteForm: any) {
@@ -42,6 +42,5 @@ export class DisposalComponent {
     this.disposal.emailCittadino = localStorage.getItem("emailCitizen")
 
     var code = await this.dumpstersService.addDisposal(this.disposal)
-    console.log(code);
   }
 }

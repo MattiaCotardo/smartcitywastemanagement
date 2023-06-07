@@ -16,7 +16,9 @@ export class InfoCitizenComponent {
   async ngOnInit() {
     this.citizenOrNull = await this.citizensService.getCitizenByEmail(localStorage.getItem("emailCitizen"))
     if(this.citizenOrNull!=null){
-    this.citizenOrNull.performance = parseFloat(this.citizenOrNull.performance.toFixed(2))
+      this.citizenOrNull.performance = parseFloat(this.citizenOrNull.performance.toFixed(2))
+      localStorage.setItem('currentCitizenCity', this.citizenOrNull.comune)
     }
+
   }
 }

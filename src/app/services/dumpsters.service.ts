@@ -78,4 +78,48 @@ export class DumpstersService {
     }
   }
 
+
+  async getDumpstersByComune(comune: string|null)  : Promise<Dumpster[]|null> {
+    const apiUrl = 'http://localhost:8082/api/dumpsters/find?comune=' + comune
+
+    try {
+      var token = JSON.parse(localStorage.getItem('tokenAdmin')!)
+      const response = await axios.get(apiUrl, {
+        headers: {
+          'Authorization': `Bearer `+ token.jwt,
+        },
+      });
+      const dumpsters: Dumpster[] = response.data;
+      return dumpsters;
+
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async clean(dumpsters:string[]): Promise<number> {
+    try {
+
+      const data = {IDs: dumpsters}
+
+      var token = JSON.parse(localStorage.getItem('tokenAdmin')!)
+      const response = await axios.post('http://localhost:8082/api/dumpsters/clean', data, {
+        headers: {
+          'Authorization': `Bearer `+token.jwt,
+        },
+      });
+
+      // Verifica se la richiesta è andata bene
+      if (response.status === 200) {
+        this.router.navigate(['adminAziendale'])
+        window.alert("Cassonetto puliti con successo");
+        return 0; // Restituisce 0 se la richiesta è andata bene
+      } else {
+        return 1; // Restituisce 1 se la richiesta ha avuto esito negativo
+      }
+    } catch (error) {
+      return 1; // Restituisce 1 se si è verificato un errore durante la richiesta
+    }
+  }
+
 }

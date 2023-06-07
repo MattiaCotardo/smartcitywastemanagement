@@ -1,0 +1,27 @@
+<div class="form-group">
+  <label for="citySelect">Seleziona un comune:</label>
+  <select class="form-control" id="citySelect" required [(ngModel)]="selectedCity" name="citySelect" (ngModelChange)="onCityChange()">
+    <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+  </select>
+</div>
+
+<div class="image-container">
+  <img class="fixed-size" [src]="imagePath">
+  <ng-container *ngFor="let dumpster of dumpsters">
+    <div class="marker"
+         [style.left.px]="dumpster.x"
+         [style.top.px]="dumpster.y"
+         (mouseover)="onMarkerMouseOver($event, dumpster)"
+         (mouseout)="onMarkerMouseOut()"
+         (click)="onMarkerClick(dumpster)"
+    ></div>
+  </ng-container>
+  <div *ngIf="isInfoVisible" class="info-window" [style.left.px]="infoWindowLeft" [style.top.px]="infoWindowTop">{{ infoContent }}</div>
+</div>
+
+<ol>
+  Ordine per la pulizia selezionato:
+  <li *ngFor="let dumpster of dumpstersToClean">Cassonetti con ID: {{ dumpster }}</li>
+</ol>
+
+<button (click)="clean()">Pulisci</button>

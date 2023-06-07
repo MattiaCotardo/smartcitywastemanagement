@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import {FormsModule} from "@angular/forms";
 import {CitizensService} from "./services/citizens.service";
@@ -25,6 +24,8 @@ import { CreateDumpsterComponent } from './components/create-dumpster/create-dum
 import { PerformanceCitizenComponent } from './components/performance-citizen/performance-citizen.component';
 import { ResearchCitizenComponent } from './components/research-citizen/research-citizen.component';
 import { PaymentsTableComponent } from './components/payments-table/payments-table.component';
+import { MapComponent } from './components/map/map.component';
+import {StatusComponent} from "./components/status/status.component";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,9 @@ import { PaymentsTableComponent } from './components/payments-table/payments-tab
     CreateDumpsterComponent,
     PerformanceCitizenComponent,
     ResearchCitizenComponent,
-    PaymentsTableComponent
+    PaymentsTableComponent,
+    MapComponent,
+    StatusComponent
   ],
   imports: [
     BrowserModule,
