@@ -25,7 +25,6 @@ import { PerformanceCitizenComponent } from './components/performance-citizen/pe
 import { ResearchCitizenComponent } from './components/research-citizen/research-citizen.component';
 import { PaymentsTableComponent } from './components/payments-table/payments-table.component';
 import { MapComponent } from './components/map/map.component';
-import {StatusComponent} from "./components/status/status.component";
 
 @NgModule({
   declarations: [
@@ -48,8 +47,7 @@ import {StatusComponent} from "./components/status/status.component";
     PerformanceCitizenComponent,
     ResearchCitizenComponent,
     PaymentsTableComponent,
-    MapComponent,
-    StatusComponent
+    MapComponent
   ],
   imports: [
     BrowserModule,

@@ -12,32 +12,32 @@
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Sign Up</h3>
+          <h3 class="card-title">Registrazione</h3>
         </div>
         <div class="card-body">
           <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)">
             <div class="mb-3">
-              <label for="name" class="form-label">Name</label>
+              <label for="name" class="form-label">Nome</label>
               <input
                 [(ngModel)] = "citizen.nome" name="name"
                 required
                 #inputName = "ngModel"
                 [ngClass]="{'is-invalid': inputName.errors && inputName.touched}"
-                type="text" class="form-control" id="name" placeholder="Enter name">
+                type="text" class="form-control" id="name" placeholder="Inserisci nome">
                 <div class="invalid-feedback">
-                  Please insert a valid name.
+                  Inserisci un nome valido.
                 </div>
             </div>
             <div class="mb-3">
-              <label for="surname" class="form-label">Surname</label>
+              <label for="surname" class="form-label">Cognome</label>
               <input
                 [(ngModel)] = "citizen.cognome" name="surname"
                 required
                 #inputSurname = "ngModel"
                 [ngClass]="{'is-invalid': inputSurname.errors && inputSurname.touched}"
-                type="text" class="form-control" id="surname" placeholder="Enter surname">
+                type="text" class="form-control" id="surname" placeholder="Inserisci cognome">
                 <div class="invalid-feedback">
-                  Please insert a valid surname.
+                  Inserisci un cognome valido.
                 </div>
             </div>
             <div class="mb-3">
@@ -48,21 +48,17 @@
                 pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
                 #inputEmail = "ngModel"
                 [ngClass]="{'is-invalid': inputEmail.errors && inputEmail.touched}"
-                type="email" class="form-control" id="email" placeholder="Enter email">
+                type="email" class="form-control" id="email" placeholder="Inserisci email">
                 <div class="invalid-feedback">
-                  Please insert a valid email.
+                  Inserisci un'email valida.
                 </div>
             </div>
             <div class="mb-3">
-              <label for="city" class="form-label">City</label>
-              <input
-                [(ngModel)] = "citizen.comune" name="city"
-                required
-                #inputCity = "ngModel"
-                [ngClass]="{'is-invalid': inputCity.errors && inputCity.touched}"
-                type="text" class="form-control" id="city" placeholder="Enter city">
-              <div class="invalid-feedback">
-                Please insert a valid city.
+              <div class="form-group">
+                <label for="citySelect" class="form-label">Comune</label>
+                <select class="form-control" id="citySelect" required [(ngModel)] = "citizen.comune" name="citySelect">
+                  <option *ngFor="let city of cities" [value]="city" > {{city}} </option>
+                </select>
               </div>
             </div>
             <div class="mb-3">
@@ -73,15 +69,15 @@
                 minlength="3"
                 #inputPassword = "ngModel"
                 [ngClass]="{'is-invalid': inputPassword.errors && inputPassword.touched}"
-                type="password" class="form-control" id="password" placeholder="Enter password">
+                type="password" class="form-control" id="password" placeholder="Inserisci password">
               <div class="invalid-feedback">
-                Please insert a password (minimum 3 characters).
+                Inserisci una password valida (minimo 3 caratteri).
               </div>
             </div>
             <div class="d-grid gap-2">
               <button
-                [disabled] = "!signupForm.valid"
-                type="submit" class="btn btn-primary">Sign Up</button>
+                [disabled] = "!signupForm.valid || btnDisabled"
+                type="submit" class="btn btn-primary">Registrati</button>
             </div>
           </form>
         </div>

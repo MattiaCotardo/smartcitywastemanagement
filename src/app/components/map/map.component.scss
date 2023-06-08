@@ -2,7 +2,16 @@
   position: relative;
 }
 
-.marker {
+.marker-blue {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: blue;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.marker-red {
   position: absolute;
   width: 15px;
   height: 15px;
@@ -12,6 +21,10 @@
 }
 
 .fixed-size {
-  width: 30%; /* Imposta la larghezza desiderata dell'immagine */
+  width: 70%; /* Imposta la larghezza desiderata dell'immagine */
   height: auto; /* L'altezza si adatterà in base alla larghezza specificata mantenendo le proporzioni originali dell'immagine */
+}
+
+.container2 {
+  display: flex; /* Utilizziamo flexbox */
 }

@@ -24,9 +24,9 @@
                 pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
                 #inputEmail = "ngModel"
                 [ngClass]="{'is-invalid': (inputEmail.errors && inputEmail.touched) || statusCode===1}"
-                type="email" class="form-control" id="email" placeholder="Enter email">
+                type="email" class="form-control" id="email" placeholder="Inserisci email">
                 <div class="invalid-feedback">
-                  Please insert a valid e-mail.
+                  Inserisci un'email valida.
                 </div>
             </div>
             <div class="mb-3">
@@ -37,14 +37,14 @@
                 minlength="3"
                 #inputPassword = "ngModel"
                 [ngClass]="{'is-invalid': (inputEmail.errors && inputEmail.touched) || statusCode===1}"
-                type="password" class="form-control" id="password" placeholder="Enter password">
+                type="password" class="form-control" id="password" placeholder="Inserisci password">
                 <div class="invalid-feedback">
-                  Please insert a password.
+                  Inserisci una password valida.
                 </div>
             </div>
             <div class="d-grid gap-2">
               <button
-                [disabled] = "!citizenForm.valid"
+                [disabled] = "!citizenForm.valid || btnDisabled"
                 type="submit" class="btn btn-primary">Login</button>
             </div>
           </form>

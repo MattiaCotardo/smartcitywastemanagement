@@ -4,7 +4,6 @@
 <br>
 <br>
 <head>
-  <title>Form con Bootstrap</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -30,7 +29,7 @@
       <input type="text" class="form-control" id="comune" value="{{dumpster.comune}}" readonly>
     </div>
     <button type="submit" class="btn btn-primary"
-            [disabled] = "!addDumpsterForm.valid">Invia</button>
+            [disabled] = "!addDumpsterForm.valid || btnDisabled">Invia</button>
   </form>
 </div>
 </body>

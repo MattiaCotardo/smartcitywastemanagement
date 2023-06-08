@@ -1,27 +1,59 @@
-<div class="form-group">
-  <label for="citySelect">Seleziona un comune:</label>
-  <select class="form-control" id="citySelect" required [(ngModel)]="selectedCity" name="citySelect" (ngModelChange)="onCityChange()">
-    <option *ngFor="let city of cities" [value]="city">{{city}}</option>
-  </select>
+<!DOCTYPE html>
+<html>
+<br>
+<br>
+<br>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h2>Visualizza la mappa e definisci un percorso di pulizia</h2>
+
+  <br>
+  <br>
+  <form id="myForm" #mapForm="ngForm">
+    <div class="form-group">
+      <label for="citySelect">Seleziona un comune per visualizzare la mappa:</label>
+      <select class="form-control" id="citySelect" required [(ngModel)] = "selectedCity" name="citySelect" (ngModelChange)="onCityChange()">
+        <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+      </select>
+    </div>
+
+    <div class="container2">
+      <div class="image-container">
+        <img class="fixed-size" [src]="imagePath">
+        <div *ngFor="let dumpster of dumpsters" [ngClass]="{'marker-red': dumpster.stato > 100, 'marker-blue': dumpster.stato <= 100}"
+             [style.left.px]="dumpster.x"
+             [style.top.px]="dumpster.y"
+             (mouseover)="onMarkerMouseOver($event, dumpster)"
+             (mouseout)="onMarkerMouseOut()"
+             (click)="onMarkerClick(dumpster)">
+        </div>
+
+
+
+        <div *ngIf="isInfoVisible" class="info-window" [style.left.px]="infoWindowLeft" [style.top.px]="infoWindowTop">{{ infoContent }}</div>
+      </div>
+
+
+      <div class="list-container">
+        <ol>
+          <li *ngFor="let dumpster of dumpstersToClean">Cassonetti con ID: {{ dumpster }}</li>
+        </ol>
+      </div>
+
+      <div class="btn-container">
+        <button class="btn btn-primary" *ngIf="isButtonVisible" (click)="clean()">Pulisci</button>
+      </div>
+
+
+    </div>
+
+
+  </form>
+
 </div>
+</body>
+</html>
 
-<div class="image-container">
-  <img class="fixed-size" [src]="imagePath">
-  <ng-container *ngFor="let dumpster of dumpsters">
-    <div class="marker"
-         [style.left.px]="dumpster.x"
-         [style.top.px]="dumpster.y"
-         (mouseover)="onMarkerMouseOver($event, dumpster)"
-         (mouseout)="onMarkerMouseOut()"
-         (click)="onMarkerClick(dumpster)"
-    ></div>
-  </ng-container>
-  <div *ngIf="isInfoVisible" class="info-window" [style.left.px]="infoWindowLeft" [style.top.px]="infoWindowTop">{{ infoContent }}</div>
-</div>
-
-<ol>
-  Ordine per la pulizia selezionato:
-  <li *ngFor="let dumpster of dumpstersToClean">Cassonetti con ID: {{ dumpster }}</li>
-</ol>
-
-<button (click)="clean()">Pulisci</button>

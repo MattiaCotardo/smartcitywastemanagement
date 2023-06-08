@@ -17,15 +17,19 @@ export class EmitPaymentComponent {
 
   @ViewChild('addPaymentForm') form:any;
 
-  citizen: Citizen = {} as Citizen
+  citizen: Citizen = {} as Citizen;
 
-  citizens: Citizen[]|null = []
+  citizens: Citizen[]|null = [];
 
   payment: Payment = {} as Payment;
 
-  async ngOnInit() {
-    this.citizens = await this.citizenService.getCitizensByComune(localStorage.getItem("currentAdminCity"))
+  btnDisabled: boolean = false;
 
+  async ngOnInit() {
+
+    this.btnDisabled = false;
+
+    this.citizens = await this.citizenService.getCitizensByComune(localStorage.getItem("currentAdminCity"));
 
     const currentDate = new Date();
     this.payment.giornoScadenza = currentDate.getDate();
@@ -35,10 +39,15 @@ export class EmitPaymentComponent {
 
   async onSubmit(addPaymentForm: any) {
 
+    this.btnDisabled = true;
+
     this.payment.emailCittadino = addPaymentForm.form.value.citizenSelect;
     this.payment.importo = addPaymentForm.form.value.amount;
+    this.payment.daPagare = 1;
 
-    var code = await this.adminService.addPayment(this.payment)
+    var code = await this.adminService.addPayment(this.payment);
+
+    this.btnDisabled = false;
   }
 
 }

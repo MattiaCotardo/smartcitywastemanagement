@@ -12,16 +12,20 @@ import {PaymentsTableComponent} from "../payments-table/payments-table.component
 export class ResearchCitizenComponent {
 
   citizenArray: Citizen[] | null = [];
-  citizen: Citizen = {} as Citizen
+  citizen: Citizen = {} as Citizen;
+
+  btnDisabled: boolean = false;
 
   constructor(private citizensService:CitizensService, private router: Router) {
   }
 
   async ngOnInit() {
+    this.btnDisabled = false;
     this.citizenArray = await this.citizensService.getCitizensByComune(localStorage.getItem("currentAdminCity"))
   }
 
   onSubmit(researchForm: any) {
+    this.btnDisabled = true;
     localStorage.setItem('searchedEmail', researchForm.form.value.citizenSelect)
     location.reload()
   }

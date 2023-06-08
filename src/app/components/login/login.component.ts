@@ -13,15 +13,25 @@ export class LoginComponent {
 
   @ViewChild('citizenForm') form:any;
 
-  citizen:Citizen = {} as Citizen
+  citizen:Citizen = {} as Citizen;
 
-  statusCode: number = 0
+  statusCode: number = 0;
+
+  btnDisabled: boolean = false;
 
   constructor(private citizensService:CitizensService, private homeComponent:HomeComponent) {
   }
 
+  ngOnInit(){
+    this.btnDisabled = false;
+  }
+
   async onSubmit(citizenForm: any) {
-    this.statusCode = await this.citizensService.loginCitizen(this.citizen.email, this.citizen.password)
+    this.btnDisabled = true;
+
+    this.statusCode = await this.citizensService.loginCitizen(this.citizen.email, this.citizen.password);
+
+    this.btnDisabled = false;
   }
 
 

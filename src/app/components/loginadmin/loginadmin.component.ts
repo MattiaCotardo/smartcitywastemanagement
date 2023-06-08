@@ -19,14 +19,23 @@ export class LoginadminComponent {
 
   statusCode: number = 0
 
+  btnDisabled: boolean = false;
 
   constructor(private adminsService:AdminsService, private homeComponent:HomeComponent) {
   }
 
+  ngOnInit(){
+    this.btnDisabled = false;
+  }
+
   async onSubmit(citizenForm: any) {
-    //let res = this.citizensService.loginCitizen(this.citizen.email, this.citizen.password);
-    this.statusCode = await this.adminsService.loginAdmin(this.admin.email, this.admin.password)
-    console.log(this.statusCode)
+
+    this.btnDisabled = true;
+
+    this.statusCode = await this.adminsService.loginAdmin(this.admin.email, this.admin.password);
+
+    this.btnDisabled = false;
+
   }
 
 

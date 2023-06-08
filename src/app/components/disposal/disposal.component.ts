@@ -19,17 +19,22 @@ export class DisposalComponent {
 
   dumpster: Dumpster = {} as Dumpster;
 
+  btnDisabled: boolean = false;
+
   async ngOnInit() {
-    this.dumpsters = await this.dumpstersService.getDumpstersByComune(localStorage.getItem('currentCitizenCity'))
+    this.dumpsters = await this.dumpstersService.getAllDumpsters();
+    this.btnDisabled = false;
   }
 
   async onSubmit(addWasteForm: any) {
+
+    this.btnDisabled = true;
 
     this.disposal.idCassonetto = addWasteForm.form.value.id;
     if(this.dumpsters!=null) {
       for (let i = 0; i < this.dumpsters.length; i++) {
         if (this.dumpsters[i].id === this.disposal.idCassonetto) {
-          this.disposal.tipologia = this.dumpsters[i].tipologia
+          this.disposal.tipologia = this.dumpsters[i].tipologia;
           break; // Interrompi il ciclo quando viene trovato l'oggetto desiderato
         }
       }
@@ -39,8 +44,10 @@ export class DisposalComponent {
     this.disposal.giorno = currentDate.getDate();
     this.disposal.mese = currentDate.getMonth() + 1;
     this.disposal.anno = currentDate.getFullYear();
-    this.disposal.emailCittadino = localStorage.getItem("emailCitizen")
+    this.disposal.emailCittadino = localStorage.getItem("emailCitizen");
 
-    var code = await this.dumpstersService.addDisposal(this.disposal)
+    var code = await this.dumpstersService.addDisposal(this.disposal);
+
+    this.btnDisabled = false;
   }
 }

@@ -12,10 +12,10 @@
         <div class="form-group">
           <label for="citizenSelect" class="mr-2">Seleziona un cittadino da visualizzare:</label>
           <select class="form-control" id="citizenSelect" required [(ngModel)]="citizen.email" name="citizenSelect">
-            <option *ngFor="let citizen of citizenArray" [value]="citizen.email"> email: {{citizen.email}} : {{citizen.nome}} {{citizen.cognome}} </option>
+            <option *ngFor="let citizen of citizenArray" [value]="citizen.email"> Email: {{citizen.email}} : {{citizen.nome}} {{citizen.cognome}} </option>
           </select>
         </div>
-        <button type="submit" class="btn btn-primary ml-2" [disabled]="!selectCitizenForm.valid">Cerca</button>
+        <button type="submit" class="btn btn-primary ml-2" [disabled]="!selectCitizenForm.valid || btnDisabled">Cerca</button>
       </form>
     </div>
   </body>

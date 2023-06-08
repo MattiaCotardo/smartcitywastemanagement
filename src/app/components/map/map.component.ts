@@ -18,6 +18,7 @@ export class MapComponent {
   infoContent: string = '';
   infoWindowLeft: number = 0;
   infoWindowTop: number = 0;
+  isButtonVisible: boolean = false;
 
   constructor(private dumpstersService: DumpstersService) { }
 
@@ -44,6 +45,7 @@ export class MapComponent {
     if(!this.dumpstersToClean.includes(dumpster.id)){
       this.dumpstersToClean.push(dumpster.id);
     }
+    this.isButtonVisible = true;
   }
 
   onMarkerMouseOver(event: MouseEvent, dumpster: any) {
@@ -59,6 +61,7 @@ export class MapComponent {
   }
 
   async clean(){
+    this.isButtonVisible = false;
     await this.dumpstersService.clean(this.dumpstersToClean);
   }
 }

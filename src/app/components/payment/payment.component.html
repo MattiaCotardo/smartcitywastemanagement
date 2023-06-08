@@ -29,7 +29,7 @@
       </td>
       <td>{{ payment.giornoScadenza }}/{{ payment.meseScadenza }}/{{ payment.annoScadenza }}</td>
       <div class="text-center">
-        <button  [disabled] = "payment.daPagare == 0" class="btn btn-outline-primary" (click)="pay(payment.id)">Paga</button>
+        <button  [disabled] = "payment.daPagare == 0 || btnDisabled" class="btn btn-outline-primary" (click)="pay(payment.id)">Paga</button>
       </div>
     </tr>
     </tbody>
