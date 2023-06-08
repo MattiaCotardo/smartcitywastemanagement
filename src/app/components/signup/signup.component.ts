@@ -15,6 +15,8 @@ export class SignupComponent {
 
   citizen:Citizen = {} as Citizen;
 
+  citizenTestOrNull: Citizen | null = null;
+
   cities: string[] = ["Lecce", "Milano", "Roma"];
 
   btnDisabled: boolean = false;
@@ -25,12 +27,25 @@ export class SignupComponent {
   ngOnInit(){
     this.btnDisabled = false;
   }
-  onSubmit(citizenForm: any) {
+
+  async onSubmit(citizenForm: any) {
+
     this.btnDisabled = true;
 
-    this.citizen.performance = 100;
-    this.citizen.daSensibilizzare = 0;
-    this.citizensService.signUpCitizen(this.citizen);
+    this.citizenTestOrNull = await this.citizensService.getCitizenByEmail(this.citizen.email);
+
+    if(this.citizenTestOrNull?.email == undefined){
+
+
+      this.citizen.performance = 100;
+      this.citizen.daSensibilizzare = 0;
+      this.citizensService.signUpCitizen(this.citizen);
+
+    }else{
+
+      window.alert("L'email è già utilizzata");
+
+    }
 
     this.btnDisabled = false;
 

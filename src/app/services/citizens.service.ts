@@ -124,6 +124,7 @@ export class CitizensService {
       response => {
 
         window.alert("Nuovo account creato con successo");
+
         this.router.navigate(['login'])
       },
       error => {
