@@ -90,12 +90,18 @@ public class SmartDumpsterRestController {
 
                 if(dumpsters[i].getStato() >= 100){
                     currentDate = new Date();
+
                     // Definisci il formato desiderato per la data e l'ora
                     dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
                     // Formatta la data e l'ora corrente secondo il formato definito
                     formattedDate = dateFormat.format(currentDate);
-                    String testo_allarme = "DATA E ORA: " + formattedDate + "\n" + "ALLARME: CASSONETTO CON ID " + dumpsters[i].getId() + " HA STATO PARI A " + dumpsters[i].getStato() + "\n\n";
+
+                    String testo_allarme = "ALLARME CASSONETTO CON ID: " + dumpsters[i].getId() + "\n\n"
+                                            + "IN DATA E ORA: " + formattedDate + "\n"
+                                            + "NEL COMUNE DI: " + dumpsters[i].getComune() + "\n"
+                                            + "STATO PARI A " + dumpsters[i].getStato();
+
                     producerService.sendMessage(testo_allarme);
                 }
             }

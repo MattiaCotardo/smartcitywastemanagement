@@ -1,4 +1,4 @@
-package it.unisalento.pas.adminaccountmanagement.configuration;
+package it.unisalento.pas.emailmanagement.configuration;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
