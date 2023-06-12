@@ -14,7 +14,7 @@ export class DumpstersService {
   constructor(private http:HttpClient, private router: Router) { }
 
   async getAllDumpsters()  : Promise<Dumpster[]|null> {
-    const apiUrl = 'http://localhost:8082/api/dumpsters/findAll'
+    const apiUrl = 'http://3.219.246.216:8080/api/dumpsters/findAll'
 
     try {
       const response = await axios.get(apiUrl, {
@@ -36,7 +36,7 @@ export class DumpstersService {
     try {
       const data = {tipologia: disposal.tipologia, idCassonetto:disposal.idCassonetto, giorno:disposal.giorno, mese:disposal.mese, anno:disposal.anno, peso:disposal.peso, emailCitizen:disposal.emailCittadino};
       var token = JSON.parse(localStorage.getItem('tokenCitizen')!)
-      const response = await axios.post('http://localhost:8083/api/wastes/', data, {
+      const response = await axios.post('http://3.231.106.228:8080/api/wastes/', data, {
         headers: {
           'Authorization': `Bearer `+token.jwt,
         },
@@ -59,7 +59,7 @@ export class DumpstersService {
     try {
       const data = {tipologia: dumpster.tipologia, stato:dumpster.stato, x:dumpster.x, y:dumpster.y, comune:dumpster.comune};
       var token = JSON.parse(localStorage.getItem('tokenAdmin')!)
-      const response = await axios.post('http://localhost:8082/api/dumpsters/', data, {
+      const response = await axios.post('http://3.219.246.216:8080/api/dumpsters/', data, {
         headers: {
           'Authorization': `Bearer `+token.jwt,
         },
@@ -80,7 +80,7 @@ export class DumpstersService {
 
 
   async getDumpstersByComune(comune: string|null)  : Promise<Dumpster[]|null> {
-    const apiUrl = 'http://localhost:8082/api/dumpsters/find?comune=' + comune
+    const apiUrl = 'http://3.219.246.216:8080/api/dumpsters/find?comune=' + comune
 
     try {
       var token = JSON.parse(localStorage.getItem('tokenAdmin')!)
@@ -103,7 +103,7 @@ export class DumpstersService {
       const data = {IDs: dumpsters}
 
       var token = JSON.parse(localStorage.getItem('tokenAdmin')!)
-      const response = await axios.post('http://localhost:8082/api/dumpsters/clean', data, {
+      const response = await axios.post('http://3.219.246.216:8080/api/dumpsters/clean', data, {
         headers: {
           'Authorization': `Bearer `+token.jwt,
         },
