@@ -47,7 +47,7 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeRequests().requestMatchers("/api/citizens/authenticate", "/api/citizens/",
                          "/api/citizens/find", "/api/citizens/find/*", "/api/citizens/performance/update/*", "/api/citizens/findByEmail").permitAll().
-                anyRequest().authenticated().and().cors().and().sessionManagement()
+                anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

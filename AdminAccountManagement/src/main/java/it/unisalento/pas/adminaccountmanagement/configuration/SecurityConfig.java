@@ -46,7 +46,7 @@ public class SecurityConfig {
 
         http.csrf().disable()
                 .authorizeRequests().requestMatchers("/api/admins/authenticate", "/api/admins/", "/api/admins/find/*").permitAll().
-                anyRequest().authenticated().and().cors().and().sessionManagement()
+                anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

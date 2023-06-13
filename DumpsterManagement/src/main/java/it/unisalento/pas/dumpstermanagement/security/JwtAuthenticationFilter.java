@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // Effettua la richiesta GET al microservizio AdminAccountManahement
 
-            String url = "http://AdminAccountManagement:8080/api/admins/find/" + username;
+            String url = "http://34.197.197.67:8081/api/admins/find/" + username; //AdminManagement
 
             ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 

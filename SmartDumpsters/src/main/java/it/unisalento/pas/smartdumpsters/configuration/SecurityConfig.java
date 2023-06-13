@@ -29,7 +29,7 @@ public class SecurityConfig {
 
         http.csrf().disable()
                 .authorizeRequests().requestMatchers("/api/smartdumpsters/clean", "/api/smartdumpsters/status/update/*", "/api/smartdumpsters/", "/api/smartdumpsters/initialize").permitAll().
-                anyRequest().authenticated().and().cors().and().sessionManagement()
+                anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();

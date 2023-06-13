@@ -14,7 +14,7 @@ public class DumpsterManagementApplication {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String url = "http://SmartDumpsters:8080/api/smartdumpsters/initialize";
+        String url = "http://52.205.85.27:8080/api/smartdumpsters/initialize"; //SmartDumpsters
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
     }

@@ -7,9 +7,7 @@ import com.google.gson.JsonObject;
 import it.unisalento.pas.dumpstermanagement.domain.Dumpster;
 import it.unisalento.pas.dumpstermanagement.dto.DumpsterDTO;
 import it.unisalento.pas.dumpstermanagement.repositories.DumpsterRepository;
-import it.unisalento.pas.dumpstermanagement.service.ProducerService;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,12 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import static it.unisalento.pas.dumpstermanagement.configuration.SecurityConfig.passwordEncoder;
-
-@CrossOrigin
 @RestController
 @RequestMapping("/api/dumpsters")
 public class DumpsterRestController {
@@ -33,10 +26,6 @@ public class DumpsterRestController {
 
     @Autowired
     ConnectionFactory connectionFactory;
-    @Autowired
-    RabbitTemplate rabbitTemplate;
-    @Autowired
-    ProducerService producerService;
 
 
    @PreAuthorize("hasRole('ADMIN_AZIENDALE')")
@@ -100,7 +89,7 @@ public class DumpsterRestController {
 
         //deve essere aggiunto anche un dumpster nello smartdumpsterr
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://SmartDumpsters:8080/api/smartdumpsters/";
+        String url = "http://52.205.85.27:8080/api/smartdumpsters/"; //SmartDumpsters
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 

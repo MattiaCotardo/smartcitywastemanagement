@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             RestTemplate restTemplate = new RestTemplate();
 
-            String url = "http://CitizenAccountManagement:8080/api/citizens/find/" + username;
+            String url = "http://34.197.197.67:8080/api/citizens/find/" + username; //CitizenManagement
 
             ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 

@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api/smartdumpsters")
 public class SmartDumpsterRestController {
@@ -55,7 +54,7 @@ public class SmartDumpsterRestController {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String url = "http://DumpsterManagement:8080/api/dumpsters/findAll";
+        String url = "http://3.219.246.216:8080/api/dumpsters/findAll"; //DumpsterManagement
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 

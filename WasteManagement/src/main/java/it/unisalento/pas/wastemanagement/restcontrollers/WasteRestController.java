@@ -11,7 +11,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api/wastes")
 public class WasteRestController {
@@ -62,7 +61,7 @@ public class WasteRestController {
         //Da mandare in patch a citizen
         RestTemplate restTemplate = new RestTemplate();
         // Effettua la richiesta PATCH al microservizio dei Citizens
-        String url = "http://CitizenAccountManagement:8080/api/citizens/performance/update/" + wasteDTO.getEmailCitizen();
+        String url = "http://34.197.197.67:8080/api/citizens/performance/update/" + wasteDTO.getEmailCitizen(); //CitizenManagement
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -71,18 +70,13 @@ public class WasteRestController {
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
 
-        //il nuovo peso deve essere mandato in patch a cassonetto
-        System.out.println("update dello stato del cassonetto " + wasteDTO.getIdCassonetto());
-        System.out.println("con un peso di " + wasteDTO.getPeso());
-
-        url = "http://DumpsterManagement:8080/api/dumpsters/status/update/" + wasteDTO.getIdCassonetto();
+        url = "http://3.219.246.216:8080/api/dumpsters/status/update/" + wasteDTO.getIdCassonetto(); //DumpsterManagement
 
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         requestBody = "{\"stato\": "+wasteDTO.getPeso()+"}";
         requestEntity = new HttpEntity<>(requestBody, headers);
         response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-        System.out.print("prova2");
 
 
         //il nuovo peso deve essere mandato in patch anche allo smartdumpster

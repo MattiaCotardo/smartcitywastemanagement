@@ -47,25 +47,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             JsonObject jsonObject;
             UserDetails userDetails;
 
-
-            System.out.println("entrati nel controllo token");
             // Effettua la richiesta GET al microservizio CitizenAccountManagement
-            url = "http://CitizenAccountManagement:8080/api/citizens/findByEmail?email=" + username;
+            url = "http://34.197.197.67:8080/api/citizens/findByEmail?email=" + username; //CitizenManagement
             result = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 
             if(result.getBody() != null) {
-                System.out.println("ha fatto bene la .exchange");
                 // Ottieni la risposta
                 responseBody = result.getBody();
-                System.out.println("ha fatto bene la result.getBody");
                 jsonObject = new Gson().fromJson(responseBody, JsonObject.class);
-                System.out.println("la risposta vuota è: " + responseBody);
                 userDetails = org.springframework.security.core.userdetails.User.withUsername(username).password(jsonObject.get("password").getAsString()).roles("CITIZEN").build();
             }
 
             else {
                 // Effettua la richiesta GET al microservizio AdminAccountManagement
-                url = "http://AdminAccountManagement:8080/api/admins/find/" + username;
+                url = "http://34.197.197.67:8081/api/admins/find/" + username; //AdminManagement
                 result = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
                 // Ottieni la risposta
                 responseBody = result.getBody();
@@ -82,8 +77,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
             if (jwtUtilities.validateToken(jwt, userDetails)) {
-                System.out.println("si rompe qua 3");
-
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken

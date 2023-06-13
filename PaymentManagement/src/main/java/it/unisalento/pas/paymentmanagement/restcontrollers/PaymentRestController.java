@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api/payments")
 public class PaymentRestController {
@@ -48,7 +47,7 @@ public class PaymentRestController {
 
             // Effettua la richiesta GET al microservizio CitizenAccountManagement
 
-            url = "http://CitizenAccountManagement:8080/api/citizens/findByEmail?email=" + payment.getEmailCittadino();
+            url = "http://34.197.197.67:8080/api/citizens/findByEmail?email=" + payment.getEmailCittadino(); //CitizenAccount
 
             result = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 
@@ -99,7 +98,7 @@ public class PaymentRestController {
     }
 
 
-    @PreAuthorize("hasRole('CITIZEN')")
+    @PreAuthorize("hasAnyRole('CITIZEN', 'ADMIN_COMUNALE')")
     @RequestMapping(value = "/findByEmail", method = RequestMethod.GET)
     public List<PaymentDTO> findPaymentByEmail(@RequestParam String email) {
 
