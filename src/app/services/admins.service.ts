@@ -19,7 +19,7 @@ export class AdminsService {
   async loginAdmin(email: string, password: string): Promise<number> {
     try {
       const data = {email: email, password: password};
-      const response = await axios.post('http://34.197.197.67:8081/api/admins/authenticate', data);
+      const response = await axios.post('https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/admins/authenticate', data);
       const responseString = JSON.stringify(response.data);
 
       // Verifica se la richiesta è andata bene
@@ -45,7 +45,7 @@ export class AdminsService {
   }
 
   async getCityAdmin(email: string|null)  : Promise<null> {
-    const apiUrl = 'http://34.197.197.67:8081/api/admins/find/'+ email
+    const apiUrl = 'https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/admins/find/'+ email
 
     try {
       const response = await axios.get(apiUrl, {
@@ -67,7 +67,7 @@ export class AdminsService {
   }
 
   async getPaymentsByComune(comune: string|null)  : Promise<Payment[]|null> {
-    const apiUrl = 'http://52.20.89.198:8080/api/payments/find?comune='+ comune
+    const apiUrl = 'https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/payments/find?comune='+ comune
 
     try {
       var token = JSON.parse(localStorage.getItem('tokenAdmin')!)
@@ -88,7 +88,7 @@ export class AdminsService {
     try {
       const data = payment;
       var token = JSON.parse(localStorage.getItem('tokenAdmin')!)
-      const response = await axios.post('http://52.20.89.198:8080/api/payments/', data, {
+      const response = await axios.post('https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/payments', data, {
         headers: {
           'Authorization': `Bearer `+token.jwt,
         },
@@ -107,7 +107,7 @@ export class AdminsService {
   }
 
   async getAdminByEmail(email: string|null)  : Promise<Admin|null> {
-    const apiUrl = 'http://34.197.197.67:8081/api/admins/find/'+ email
+    const apiUrl = 'https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/admins/find/'+ email
 
     try {
       const response = await axios.get(apiUrl);

@@ -20,7 +20,7 @@ export class CitizensService {
   async loginCitizen(email: string, password: string): Promise<number> {
     try {
       const data = {email: email, password: password};
-      const response = await axios.post('http://34.197.197.67:8080/api/citizens/authenticate', data);
+      const response = await axios.post('https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/citizens/authenticate', data);
       const responseString = JSON.stringify(response.data);
 
       // Verifica se la richiesta è andata bene
@@ -40,7 +40,7 @@ export class CitizensService {
 
 
   async getCitizenByEmail(email: string|null)  : Promise<Citizen|null> {
-    const apiUrl = 'http://34.197.197.67:8080/api/citizens/findByEmail?email='+ email
+    const apiUrl = 'https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/citizens/findbyemail?email='+ email
 
     try {
       const response = await axios.get(apiUrl, {
@@ -57,7 +57,7 @@ export class CitizensService {
   }
 
   async getPaymentsByEmail(email: string|null)  : Promise<Payment[]|null> {
-    const apiUrl = 'http://52.20.89.198:8080/api/payments/findByEmail?email='+ email
+    const apiUrl = 'https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/payments/findbyemail?email='+ email
 
     try {
       var token = JSON.parse(localStorage.getItem('tokenCitizen')!)
@@ -74,8 +74,27 @@ export class CitizensService {
     }
   }
 
+  async adminGetPaymentsByEmail(email: string|null)  : Promise<Payment[]|null> {
+    const apiUrl = 'https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/payments/findbyemail?email='+ email
+
+    try {
+      var token = JSON.parse(localStorage.getItem('tokenAdmin')!)
+      const response = await axios.get(apiUrl, {
+        headers: {
+          'Authorization': `Bearer `+token.jwt,
+        },
+      });
+      const payments: Payment[] = response.data;
+      return payments;
+
+    } catch (error) {
+      return null;
+    }
+  }
+
+
   async getCitizensByComune(comune: string|null)  : Promise<Citizen[]|null> {
-    const apiUrl = 'http://34.197.197.67:8080/api/citizens/find?comune='+ comune
+    const apiUrl = 'https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/citizens/find?comune='+ comune
 
     try {
       const response = await axios.get(apiUrl);
@@ -87,11 +106,12 @@ export class CitizensService {
     }
   }
 
+
   async payById(id: string|undefined): Promise<number> {
     try {
       const data = {id: id};
       var token = JSON.parse(localStorage.getItem('tokenCitizen')!)
-      const response = await axios.post('http://52.20.89.198:8080/api/payments/pay', data, {
+      const response = await axios.post('https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/payments/pay', data, {
         headers: {
           'Authorization': `Bearer `+token.jwt,
         },
@@ -111,7 +131,7 @@ export class CitizensService {
 
   signUpCitizen(citizen: Citizen){
 
-    const url = 'http://34.197.197.67:8080/api/citizens/'; // URL di destinazione
+    const url = 'https://fng3ig1lah.execute-api.us-east-1.amazonaws.com/deploy/api/citizens/'; // URL di destinazione
     const data = { nome: citizen.nome, cognome: citizen.cognome, email: citizen.email, comune: citizen.comune, password: citizen.password, performance: citizen.performance, da_sensibilizzare: citizen.daSensibilizzare }; // Dati da inviare come corpo della richiesta
     let httpOptions = {
       headers: new HttpHeaders({
