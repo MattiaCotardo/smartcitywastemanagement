@@ -80,7 +80,7 @@ public class WasteRestController {
 
 
         //il nuovo peso deve essere mandato in patch anche allo smartdumpster
-        url = "http://SmartDumpsters:8080/api/smartdumpsters/status/update/" + wasteDTO.getIdCassonetto();
+        url = "http://52.205.85.27:8080/api/smartdumpsters/status/update/" + wasteDTO.getIdCassonetto(); //SmartDumpsters
 
         headers.setContentType(MediaType.APPLICATION_JSON);
 
